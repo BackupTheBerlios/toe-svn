@@ -5,7 +5,7 @@ namespace "org.scratchpost.toe.System.Unix.Time"
 types:
 	TIntervalTimerKind = enumeration:
 		Real = ?
-		Virtual = ?
+		Virtual_ = ?
 		Profiling = ?
 
 	THumanDayOfWeek = enumeration of TInteger():
