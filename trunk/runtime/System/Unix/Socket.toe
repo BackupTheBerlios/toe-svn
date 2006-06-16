@@ -1,0 +1,13 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Socket"
+
+types:
+
+
+Socket_Call
+
+   accept(2), bind(2), connect(2),  getpeername(2),  getsockname(2),  
+   getsockopt(2),  listen(2),  recv(2), recvfrom(2), send(2), sendto(2), 
+   setsockopt(2), shutdown(2), socket(2), socketpair(2).
+

@@ -1,0 +1,22 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Generators"
+
+types:
+	EStopIteration = class:
+		inherits = EException
+		
+	EGeneratorExit = class:
+		inherits = EException
+		
+	TGenerator = class:
+	TGeneratorIterator = class:
+		Send!: function(?): T raises EStopIteration
+		Throw!: function(Typ, Value, Traceback: ?) raises (EStopIteration, EException)
+		Close!: function() raises (ERuntimeError, EException)
+		Next!: function(): T
+			Send!(nil)
+
+# foo = yield bar
+# http://www.python.org/dev/peps/pep-0342/
+

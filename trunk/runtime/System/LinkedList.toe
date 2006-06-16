@@ -1,0 +1,18 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+types:
+	# double linked list
+	
+	TLinkedNode = class:
+		Next: nilable(TLinkedNode)
+		Previous: nilable(TLinkedNode)
+		
+	TLinkedList = class:
+		Head: property(nilable(TLinkedNode))
+		Tail: property(nilable(TLinkedNode))
+
+		Add!: function(Node: TLinkedNode)
+		Remove!: function(Node: TLinkedNode)
+

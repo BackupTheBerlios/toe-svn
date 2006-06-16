@@ -1,0 +1,51 @@
+http://www.haskell.org/hawiki/UsingQualifiedNames
+ From: "Frank A. Christoph" <christo@nextsolution.co.jp>
+ Subject: Qualified identifiers (was: RE: What *I* thinks Haskell Needs.)
+ To: <haskell@haskell.org>
+ Date: Mon, 27 Sep 1999 18:12:40 +0900
+
+> For bigger things which
+> you want to identify, you can either use qualified module identifiers, or
+> Haskell's type classes which at least let you establish and codify a
+> motivation for using the same name for distinct things (namely, that their
+> types are equivalent under a particular relation).
+
+BTW, since I mentioned it, let me get on my hobby horse and implore other
+Haskell programmers to ''please'' make more use of the qualified ID syntax!
+Haskell has had this feature for quite some time now, but I hardly ever see
+it used...
+
+Especially in modules that import a lot of other modules, it's
+
+        * easier to ''recognize'' an identifier if it's prefixed by a module
+ID
+rather than look through all the imported modules, and
+
+        * easier to ''modify'' a module if all you need to do to pull in a
+new value
+is to use it, rather than scrolling up, and adding it to the list of
+identifiers in something like "`import M (...)`".
+
+This is standard practice in both SML and Ocaml. (In fact, I would rather
+not have to declare things like "`import qualified M`" at all...)
+
+If you have a long module name, declare an alias:
+
+        `import qualified LongModuleName as LMN`
+
+BTW, another advantage of this syntax is that identifiers within their own
+defining module get shorter, and consequently it gets easier to read. For
+example, don't define "`addToFM`"; define "`addTo`" and then do
+"`import FiniteMap as FM`". Sometimes this means having to hide Prelude
+identifiers
+and qualify them at use (as it would be with "`lookupFM`" in GHC's
+`FiniteMap`
+module) but is that such a great price to pay...?
+
+Please. Pretty please? Pretty please with sugar on top?
+
+--FC
+
+P.S. Except infix combinators. These are ugly when you qualify them
+
+http://www.haskell.org/hawiki/UsingQualifiedNames

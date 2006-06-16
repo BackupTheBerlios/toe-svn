@@ -1,0 +1,5 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.Network.Protocol.HTTP.Cookie"
+
+types:

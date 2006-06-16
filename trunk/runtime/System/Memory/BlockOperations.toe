@@ -1,0 +1,11 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Memory"
+
+types:
+
+
+Copy_Memory_Block!: function(Start, Destination: TPointer, Size: TSize) inline
+Fill_Memory_Block!: function(Destination: TPointer, Size: TSize, Value: TByte) inline
+Zero_Memory_Block!: function(Destination: TPointer, Size: TSize) inline
+

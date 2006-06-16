@@ -1,0 +1,88 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.Network.URI"
+
+# http://www.gbiv.com/protocols/uri/rfc/rfc3986.html
+
+types:
+	TURI: TASCIIString(2,083)
+	# ok, so technically the maximum length would be about
+	# 256+10+5+4096*3 = 12559 characters, but if you used 
+	# a string that long, I'd question your sanity.
+	# (host part + scheme estimation + misc separators + every single 
+	# character of a unix path (maximum length PATH_MAX) percent-encoded)
+
+	TURL: TURI
+	TURN: TURI
+	
+	TURIInformation = class:
+		# The generic syntax uses the slash ("/"), 
+		# question mark ("?"), and number sign ("#") 
+		# characters to delimit components that are significant 
+		# to the generic parser's hierarchical interpretation of 
+		# an identifier. In addition to aiding the readability of 
+		# such identifiers through the consistent use of familiar syntax, 
+		# this uniform representation of hierarchy across naming schemes allows 
+		# scheme-independent references to be made relative to that hierarchy.
+
+		# relative urls also exist
+
+		# reserved    = gen-delims / sub-delims
+		# gen-delims  = ":" / "/" / "?" / "#" / "[" / "]" / "@"
+		# sub-delims  = "!" / "$" / "&" / "'" / "(" / ")"
+		#             / "*" / "+" / "," / ";" / "="
+		
+		#   unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
+		# (DO NOT EVER ENCODE, decode to fix when found encoded)
+		
+		# URI         = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
+		# hier-part   = "//" authority path-abempty ; begins with "/" or is empty
+		#             / path-absolute ; begins with "/" but not "//"
+		#             / path-noscheme   ; begins with a non-colon segment
+		#             / path-rootless ; begins with a segment
+		#             / path-empty
+		
+		# relative-ref  = relative-part [ "?" query ] [ "#" fragment ]
+		# relative-part = "//" authority path-abempty
+		#   / path-absolute
+		#   / path-noscheme
+		#   / path-empty
+		
+		# A path segment that contains a colon character (e.g., "this:that") 
+		# cannot be used as the first segment of a relative-path reference, 
+		# as it would be mistaken for a scheme name. 
+		# Such a segment must be preceded by a dot-segment (e.g., "./this:that") 
+		# to make a relative-path reference.
+		
+		Scheme: property(TASCIIString)
+		Authority: property(TUTF8String) # host:port # [ <userinfo>@<host>:<port> # depending on scheme ]
+		Path: property(TUTF8String) # "" or "/"...
+		Query: property(TUTF8String) # ?"name=foo"#...
+		Fragment: property(TUTF8String) # #"bar"
+		
+		# The characters slash ("/") and question mark ("?") are 
+		# allowed to represent data within the fragment identifier. 
+		
+		# relative paths are supposed to be normalized to a Base URL
+
+	THTTPURIInformation = class:
+		inherits = TURIInformation
+		Username: property(TUTF8String)
+		Password: property(TUTF8String)
+
+	TFTPURIInformation = class:
+		inherits = TURIInformation
+		Username: property(TUTF8String)
+		Password: property(TUTF8String)
+		
+		# Path different
+		# Path relative to session cwd after logging into the server.
+		# Tricks to change to "/" exist.
+	
+	TFileURIInformation = class:
+		inherits = TURIInformation
+		
+		# Path different
+		# assumes UTF-8 path names, which is technically wrong, 
+		# but I hate guessing.
+		

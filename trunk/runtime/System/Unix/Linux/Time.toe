@@ -1,0 +1,16 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Time"
+
+types:
+	TTimeAdjustments = class:
+		# auto-set flags on change
+		
+		Offset: TMicroTime(-131071: 131071+1)
+		Frequency: TLong # scaled ppm
+		Maximum_Error: TMicroTime
+		Estimated_Error; TMicroTime
+		Status: TInteger() # wtf
+		
+Get_Time_Adjustments: function(): TTimeAdjustments, 0 = System_Call
+Set_Time_Adjustments!: function(Adjustments: TTimeAdjustments) = System_Call

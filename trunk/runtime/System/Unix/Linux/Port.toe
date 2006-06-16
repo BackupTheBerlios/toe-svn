@@ -1,0 +1,21 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Port"
+
+types:
+  TPortId8: TCardinal()
+  TPortId16: TCardinal()
+  TPortId32: TCardinal()
+  
+Set_Port_Access!: function(Start, Count: TPortId, Enable: TBoolean()): ?? = System_Call
+
+Read_Port!: function(Port: TPortId8): TByte = System_Call
+Read_Port!: function(Port: TPortId16): TCardinal(16) = System_Call
+Read_Port!: function(Port: TPortId32): TCardinal(32) = System_Call
+
+Write_Port!: function(Port: TPortId8, Value: TByte): TVoid = System_Call
+Write_Port!: function(Port: TPortId16, Value: TCardinal(16)): TVoid = System_Call
+Write_Port!: function(Port: TPortId32, Value: TCardinal(32)): TVoid = System_Call
+
+# string IO?
+

@@ -1,0 +1,134 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Process"
+
+# using "org.scratchpost.toe.System.Unix.Process.Current" as Current_Process
+
+types:
+	TProcessId: enumeration of TCardinal():
+		inherits = TCardinal()
+		Error = TCardinal.Maximum # fork()
+		None = 0
+		nil = None
+
+	TProcessGroupId: enumeration of TCardinal():
+		inherits = TCardinal()
+		Error = TCardinal.Maximum
+		Any = TCardinal.Maximum
+		None = 0
+		
+	TPriority: TInteger(8):
+		Minimum = -20
+		Maximum = 19
+		nil = 127
+		
+	TSignalId: TInteger():
+		inherits = TInteger()
+		Hang_Up = 1
+		Interrupt = 2
+		Quit = 3
+		Illegal_Instruction = 4
+		Trap = 5
+		Abort = 6
+		#IOT = 6
+		Bus_Error = 7
+		Floating_Point_Exception = 8
+		Kill = 9
+		User_Defined_1 = 10
+		Segmentation_Fault = 11
+		User_Defined_2 = 12
+		Broken_Pipe = 13
+		Alarm = 14
+		Terminate = 15
+		Floating_Point_Processor_Stack_Error = 16
+		Child = 17
+		Continue = 18
+		Stop = 19
+		Terminal_Stop = 20
+		Background_Process_Input = 21
+		Background_Process_Output = 22
+		Urgent = 23
+		CPU_Time_Limit = 24
+		File_Size_Limit = 25
+		VTALRM = 26
+		Profile = 27
+		Window_Size_Change = 28
+		Input_Output_Error = 29
+		Poll = 29
+		Power_Failure = 30
+		SYS = 31
+		nil = 0
+	
+	TWaitProcessFlags = TSet(enumeration of TInteger()):
+		inherits = TInteger()
+		No_Hang = ?
+		Untraced_Stopped = ?
+		Continued = ?
+		
+	TProcessStatus = class:
+		Exited?: TBoolean
+		Exit_Status: TByte
+		Terminate_Signaled?: TBoolean
+		Terminate_Signal: TSignalId
+		Core_Dumped?: TBoolean
+		Stopped?: TBoolean # only possible if the call was done using WUNTRACED
+		Stop_Signal: TSignalId
+		Continued?: TBoolean
+
+	#TSignalSet = 
+	TSignalAction = class:
+		Handler: function(Foo: TInteger()): TVoid
+		Mask: TSet(TSignalId??) 
+		Flags: TSet(enumeration of TInteger()):
+			inherits = TInteger()
+			Child_Signal? = reverse ?
+			One_Shot? = ?
+			Restart? = ?
+			Mask_Self? = reverse ?
+			
+		Restorer: function(): TVoid
+
+	# actually UNIX just uses a sequence of (key, value) pairs,
+	# i.e. probably the same key can be contained multiple times.
+	# But that is braindead, so I don't repeat it here.		
+	TEnvironment = TDictionary(TUTF8String, TUTF8String)
+	
+# the following functions also make sense for _other_ processes,
+# so they aren't in namespace "Current".
+
+# beware of funny negative values: process group, and 0 = mine in implementation
+
+Wait_Process: function(Process: TProcessId, 
+                       Flags: TWaitProcessFlags): TProcessStatus, ??
+
+# rather do this: 
+# Wait for any child process with the given process group id
+Wait_Process_Group: function(Group: TProcessGroupId, 
+                             Flags: TWaitProcessFlags): TProcessStatus, ??
+
+# there is wait3 which waits for any child process; did not wrap it yet
+
+Kill_Process!: function(Process: TProcessId, Signal: TSignalId): ?? = System_Call
+
+# TODO Get_Times: function(): (??clock_t, ...)
+# brk, too old, skipped
+# TODO sys_signal
+# TODO acct (process accounting), not implemented in the linux kernel
+# ulimit unimplemented
+
+Set_Process_Group!: function(Process: TProcessId, Group: TProcessGroupId): ?? = System_Call
+Get_Process_Group: function(Process: TProcessId): ?? = System_Call
+
+# linux has Get_Session(Process: TProcessId) as well, but the man page is buggy
+
+# DONT ADD vfork
+
+Get_Process_Priority: function(Process: TProcessId default None): TPriority, ?? = System_Call
+Set_Process_Priority!: function(Process: TProcessId, Priority: TPriority): ?? = System_Call
+
+Get_Process_Group_Priority: function(Group: TProcessGroupId default None): TPriority, ?? = System_Call
+Set_Process_Group_Priority!: function(Group: TProcessGroupId, Priority: TPriority): ?? = System_Call
+
+Get_User_Priority: function(User: TUserId default None): TPriority, ?? = System_Call
+Set_User_Priority!: function(User: TUserId, Priority: TPriority): ?? = System_Call
+

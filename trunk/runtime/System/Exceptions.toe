@@ -1,0 +1,15 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Exceptions"
+
+types:
+	EException = class:
+	
+        EOutOfMemory = class:
+                inherits = EException
+
+	ECorruptedMemoryMap = class:
+		inherits = EException
+		
+
+	

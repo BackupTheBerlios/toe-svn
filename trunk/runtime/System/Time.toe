@@ -1,0 +1,8 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Time"
+
+types:
+	TTime = TTimeout
+
+

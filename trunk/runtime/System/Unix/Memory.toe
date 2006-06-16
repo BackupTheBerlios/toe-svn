@@ -1,0 +1,52 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Memory"
+
+types:
+	TMemoryProtection = TSet(enumeration of TInteger()):
+		Executable? = ?
+		Readable? = ?
+		Writable? = ?
+		
+	TMemoryMapFlags = TSet(enumeration of TInteger()):
+		Fixed_Address? = ?
+		Shared? = ?
+		Private? = ?
+		# Anon?
+		
+	TSynchronizeMemoryFlags = TSet(enumeration of TInteger()):
+		Synchronous? = ?
+		Invalidate_Others? = ?
+		
+	TRemapMemoryFlags = TSet(enumeration of TInteger()):
+		Movable? = ?
+		
+	
+Unmap_Memory!: function(Start: TPointer, Length: TSize): ?? = System_Call
+
+Map_Memory!: function(Start: TPointer, 
+                      Length: TSize, 
+                      Protection: TMemoryProtection,
+                      Flags: TMemoryMapFlags): TPointer, ?? = System_Call
+
+Set_Memory_Protection!: function(Start: TPointer,
+                                 Length: TSize,
+                                 Protection: TMemoryProtection): ?? = System_Call
+                                
+Synchronize_Memory!: function(Start: TPointer, 
+                              Length: TSize, 
+                              Flags: TSynchronizeMemoryFlags): ?? = System_Call
+
+Get_Page_Size: function(): TSize = System_Call
+
+Lock_Memory!: function(Start: TPointer,
+                       Size: TSize): ?? = System_Call
+
+Unlock_Memory!: function(Start: TPointer,
+                         Size: TSize): ?? = System_Call
+
+Remap_Memory!: function(Original: TPointer,
+                        Original_Size: TSize,
+                        New_Size: TSize,
+                        Flags: TRemapMemoryFlags): nilable(TPointer) = System_Call
+

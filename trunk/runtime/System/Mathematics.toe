@@ -1,0 +1,48 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Mathematics"
+using "org.scratchpost.toe.System"
+
+types:
+	#TFixedPointRadians(Fraction_Bits_Count: TFloatingPointRegisterSize): TFixedPoint()
+	#TFloatingPointRadians(Total_Bits_Count: TFloatingPointRegisterSize): TFloatingPoint(Total_Bits_Count)
+
+	TRadians: TReal
+		#Minimum = 
+		# Period = pi * 2
+
+e: TReal = 2.71828183
+pi: TReal = 3.14159265
+
+# Planck's constant = 6.626068 × 10**(-34) m**2 kg / s
+
+Cosine: function(Value: TRadians): TReal inline = builtin
+Sine: function(Value: TRadians): TReal inline = builtin
+Tangens: function(Value: TRadians): TReal inline = builtin
+Arcus_Tangens: function(Value: TReal): TRadians inline = builtin
+Arcus_Sinus: function(Value: TReal): TRadians inline = builtin
+Arcus_Cosinus: function(Value: TReal): TRadians inline = builtin
+Power: function(Base, Exponent: TReal): TReal inline = builtin
+Exponential = Power
+Square_Root: function(Value: TReal): TReal inline = builtin
+Root: function(Exponent, Value: TReal): TReal inline = builtin
+E_Logarithm: function(Value: TReal): TReal inline = builtin # e
+Decimal_Logarithm: function(Value: TReal): TReal inline = builtin # 10
+# binary logarithm
+# atan2
+
+Truncate: function(Number: TFloatingPoint): TInteger():
+	select Target.Architecture.Architecture:
+		case "i386":
+			if "SSE3" in Target.Architecture.Instruction_Sets:
+				Result := assembly:
+					FISTTP
+			else:
+				Result := assembly:
+					Set Control Register Round To Truncate
+					FISTP
+					Restore Control Register
+
+		else:
+			Compilation_Error(530, "Unknown Architecture")
+

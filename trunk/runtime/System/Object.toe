@@ -1,0 +1,15 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+types:
+	TObject = class:
+		# TODO
+
+		Get_Attribute: ?
+		Set_Attribute!: ?
+
+		Get_Hash_Code: ?
+		
+		
+

@@ -1,0 +1,4 @@
+	TBlock = class:
+		Start: TPointer
+		Size: TSize
+		

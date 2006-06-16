@@ -1,0 +1,89 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.TypeInformation"
+
+# for optimization, every type needs a final type (which type it is on "machine" level)
+
+types:
+	TMachineTypeId: TCardinal:
+		nil = 0
+		Still_Unknown = 0
+		Pointer = 1
+		default = Still_Unknown
+
+	ISymbolContainer = interface:
+		# something that contains a symbol table
+		
+	TNamespaceDefinition = class:
+		implements = (ISymbolContainer)
+		Path: TUTF8String
+  
+	TTypeDefinition = class:
+		Name: TUTF8String
+		Base: nilable(TTypeDefinition)
+		Machine_Type: nilable(TMachineTypeId)
+		Independent?: TBoolean
+		#Contained_In: ??
+
+	
+	TEnumeratedEntry = class:
+		Name: TUTF8String
+		Value: TBiggestInteger # yep, signed. C legacy.
+		Parent: TEnumeratedTypeDefinition
+	
+	TEnumeratedTypeDefinition = class:
+		inherits(TTypeDefinition)
+
+		# assert(Integer)
+		
+		# TODO ordinal types...
+
+		Entries: TDictionary(TUTF8String, TEnumeratedEntry)
+		# Reverse_Entries: TDictionary(TBiggestInteger, TList(TEnumeratedEntry))
+
+		callable = (Entries.Get, Entries.Set!)
+
+		# note that values that don't match any TEnumeratedEntry are
+		# perfectly possible and DO happen, no matter how much you
+		# try to fool yourself that they don't.
+
+	TIntegerlikeTypeDefinition = class:
+		inherits(TEnumeratedTypeDefinition)
+		
+		Minimum_Value: TBiggestCardinal default TBiggestCardinal.Minimum
+		Maximum_Value: TBiggestCardinal default TBiggestCardinal.Maximum
+		Default_Value: TBiggestCardinal default 0
+
+	TFloatingPointlikeTypeDefinition = class:
+		inherits(TEnumeratedTypeDefinition)
+		
+		Minimum_Value: TBiggestFloatingPoint default TBiggestFloatingPoint.Minimum
+		Maximum_Value: TBiggestFloatingPoint default TBiggestFloatingPoint.Maximum
+		Default_Value: TBiggestFloatingPoint default 0.0
+		
+		# Not_A_Number
+		# +∞
+		# -∞
+		
+		# Overflow?
+		# Underflow?
+
+	# for nil:
+	#TPointerTypeDefinition = class:
+	#	inherits(TEnumeratedTypeDefinition)
+
+	# array?
+
+	TFunctionTypeDefinition = class:
+		inherits(TTypeDefinition)
+
+		# Overloads?
+		
+		# Parameters
+		# Return Values
+		### Container Function/Object/Namespace
+
+		# Mutable?
+		
+# DONT forget subsets of enumerations and their compability
+

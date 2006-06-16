@@ -1,0 +1,21 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Collections"
+
+types:
+        TSet = class(T: Type):
+		implements = (IClearable, ISet)
+		#	Tree: TRedBlackTree(TRedBlackTreeNode)
+
+		Intersect: function(Other: TSet(T)): TSet(T)
+		Difference: function(Other: TSet(T)): TSet(T)
+		Union: function(Other: TSet(T)): TSet(T)
+		
+		callable = Contains?
+		
+	TOrderedSet = class(T: Type):
+		inherits = TSet
+		implements = IOrderedSet
+		
+		# Map is different, too
+		

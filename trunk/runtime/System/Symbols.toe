@@ -1,0 +1,24 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+# like X11 "Atom"
+#TSymbol = TInteger() of constant TString
+                
+                
+types:
+	TSymbol(T: Type inherits TObject) = class(T):
+		Meaning = constant property(T)
+
+hidden:
+	Symbols: TDictionary(TObject, TSymbol(TObject))
+
+Symbol: function(Meaning: TObject): TSymbol:
+	global Symbols
+
+	# TODO lock?
+	if Meaning not in Symbols:
+		Symbols.Set!(Meaning, TSymbol(TObject)(Meaning = Meaning))
+		
+	Result := Symbols(Meaning) as TSymbol(Meaning.Type)
+

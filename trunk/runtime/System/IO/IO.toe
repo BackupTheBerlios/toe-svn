@@ -1,0 +1,43 @@
+#!/usr/bin/env toe-interpreter
+
+# TODO
+
+namespace "org.scratchpost.toe.System.IO"
+
+# stream (only for reading, only for writing)
+# buffer 2
+# buffer
+# ring buffer
+# seekable or not
+# serialization
+# sync/async
+
+types:
+	IBuffer = interface:
+		Read_Position: property(TOffset)
+		Write_Position: property(TOffset)
+		Capacity: property(TSize)
+		Size: property(TSize)
+		Empty?: property(TBoolean) # Read_Position = Write_Position
+		
+		invariant(Read_Position < Size)
+		invariant(Write_Position < Size)
+		invariant(Size < Capacity)
+		invariant(Empty? xor Read_Position <> Write_Position)
+		
+		Read_Blocks!: function(Size: TSize): TMemoryBlock, TMemoryBlock
+		Write_Block!: function(Block: TMemoryBlock): TBoolean
+		Error: ??
+	
+	IReader = interface:
+		Read!: function(Destination_Buffer: IBuffer): TBoolean
+		Error: ??
+
+	IWriter = interface:
+		Write!: function(Source_Buffer: IBuffer): TBoolean
+		Error: ?
+
+	ISeekable = interface:
+		#Seek!: function(Position: TFileOffset): TBoolean
+		Position: property(TFileOffset)
+

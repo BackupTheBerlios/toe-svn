@@ -1,0 +1,51 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Errno"
+
+types:
+	TErrorNumber = enumeration of TInteger():
+		Operation_Not_Permitted = -1 # EPERM
+		No_Such_File = -2 # ENOENT
+		No_Such_Process = -3 # ESRCH
+		Interrupted_System_Call = -4 # EINTR # @#*!
+		Input_Output_Error = -5 # EIO
+		No_Such_Address = -6 # ENXIO
+		Argument_List_Too_Long = -7 # E2BIG
+		Exec???_Format_Error = -8 # ENOEXEC
+		Bad_File_Descriptor = -9 # EBADF
+		No_Child_Processes = -10 # ECHILD
+		Try_Again = -11 # EAGAIN
+		Out_of_Memory = -12 # ENOMEM
+		Permission_Denied = -13 # EACCES
+		Bad_Address = -14 # EFAULT
+		Not_A_Block_Device = -15 # ENOTBLK
+		Busy = -16 # EBUSY
+		File_Exists = -17 # EEXIST
+		Cross_Device_Link = -18 # EXDEV
+		No_Such_Device = -19 # ENODEV
+		Not_A_Directory = -20 # ENOTDIR
+		Is_A_Directory = -21 # ENOTDIR
+		Invalid_Argument = -22 # EINVAL
+		File_Table_Overflow = -23 # ENFILE
+		Too_Many_Open_Files = -24 # EMFILE
+		Not_A_TTY = -25 # ENOTTY
+		Executable_File_Busy = -26 # ETXTBSY
+		File_Too_Large = -27 # EFBIG
+		No_Space_Left = -28 # ENOSPC
+		Illegal_Seek = -29 # ESPIPE
+		Read_Only_Filesystem = -30 # EROFS
+		Too_Many_Links = -31 # EMLINK
+		Broken_Pipe = -32 # EPIPE
+		
+		# EDOM		33	/* Math argument out of domain of func */
+		# ERANGE		34	/* Math result not representable */
+
+		Almost_Died = -35 # EDEADLK
+		Name_Too_Long = -36 # ENAMETOOLONG
+		No_Locks_Available = -37 # ENOLCK
+		Not_Implemented = -38 # ENOSYS
+		Directory_Not_Empty = -39
+		Too_Many_Symbolic_Links = -40 # ELOOP
+		
+		Would_Block = Try_Again
+

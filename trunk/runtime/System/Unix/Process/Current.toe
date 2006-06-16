@@ -1,0 +1,64 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Process.Current"
+# using "org.scratchpost.toe.System.Unix.Process.Current" as Current_Process
+
+# force import only with qualified namespace
+
+Environment: property(TEnvironment)
+Id: property(TProcessId, (Read))
+Parent_Process_Id: property(TProcessId, (Read))
+Real_User: property(TUserId)
+Real_Group: property(TGroupId)
+Effective_User: property(TUserId)
+Effective_Group: property(TGroupId)
+Extra_Groups: property(TSet(TGroupId))
+Signal_Mask: property(??) # add, remove set
+Process_Group: property(TProcessGroupId)
+Priority: property(TPriority)
+Current_Directory: property(TPath) # directory path
+
+Quit!: deadly function(Code: TByte) = builtin
+
+Assimilate_Program!: maybe deadly function(Executable_Path: TPath, 
+                                           Arguments: TArrayList(TUTF8String),
+                                           Custom_Environment: TEnvironment = Environment,
+                                           Search_In_Path?: TBoolean default true): ?? = System_Call
+
+Pause: function(): ?? = System_Call
+
+Renice!: function(Difference: TInteger()): ?? = System_Call
+
+Change_Root!: function(Directory_Path: TPath): ?? = System_Call
+
+Suspend_Until_Signal: function(??): ?? = System_Call
+
+Set_File_Creation_Mask!: function(Exclude: TIdiot??Mode): ?? = System_Call
+
+# returns: previous action
+Set_Signal_Action!: function(Signal: TSignalId, action: TSignalAction): TSignalAction, ?? = System_Call
+
+Setup_Profiler: function(Buffer: TPointer, 
+                         Size: TSize, 
+                         Offset: TOffset, 
+                         Scale: TCardinal()): 0 = System_Call
+
+Disable_Profiler = Setup_Profiler(nil, 0, 0, 0)
+
+
+Set_Alarm!: function(Kind: TAlarmKind,
+                     Initial_Duration: TMicroTime): ?? = System_Call # setitimer
+                     
+Sleep: function(Duration: TNanoTime): ?? = System_Call
+
+# on error, returns Error
+# in the child, returns None (nil) 
+# in the parent, returns the child pid
+Fork: function(): TProcessId, ?? = System_Call
+
+Create_Session!: function(): ?? # assert(Result = Id) # session id must be process id
+
+# Clone, from threading
+
+#Add_Signal_Mask: function()
+#Remove_Signal_Mask: function()

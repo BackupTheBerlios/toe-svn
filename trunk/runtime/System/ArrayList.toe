@@ -1,0 +1,26 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+# TODO add parameter: buffer to use (if so, not resizable!)
+
+types:
+	TList = class(Item_Type: Type, 
+	              Length_Limit: TCardinal 
+	                default TCardinal.Maximum):
+		implements = (IClearable(T), IList(T))
+
+	# Static_Memory_Block: if not nil, the Array will store into the static array
+	#                      at the memory block. Note that this probably only makes
+	#                      sense with a few "Item_Type"s. The main use is calling foreign 
+	#                      functions.
+	#
+	#                      If nil, will dynamically allocate and be resizable.
+	
+	TArrayList = class(Item_Type: Type, 
+	                   Length_Limit: TCardinal 
+	                     default TCardinal.Maximum,
+	                   Static_Memory_Block: nilable(TMemoryBlock)
+	                     default nil):
+		implements = (IClearable(T), IArrayList(T))
+

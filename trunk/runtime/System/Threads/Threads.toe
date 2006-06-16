@@ -1,0 +1,69 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Threads"
+
+types:
+	TExclusiveLock = class:
+		inherits = TBoolean
+		
+		Lock!: function(Timeout: TTimeout = Forever):
+			while self.Value = True:
+				# spin until lock seems free
+      
+			while self.Test_And_Set!():
+				# spin
+
+				while self.Value = True:
+					# spin until lock seems free
+        
+		Test_And_Set!: function() NEED ATOMIC LOCK:
+			Initial := self.Value
+			self.Value := True
+      
+			Initial
+      
+		Try_Lock!: function(): TBoolean:
+			self.Test_And_Set!()
+			
+		# TODO Timeout?
+      
+		Unlock!: function():
+			self.Value := False
+
+	# obsolete
+	#TSemaphore = class:
+	#	Down!: function():
+	#	Up!: function():
+	
+	TCondition: TCardinal:
+		# releases lock while sleeping, regains it afterwards
+		# calling with a lock not held by this thread is an error.
+		# only one lock per condition variable.
+		Wait!: function(Sedative_Lock: TExclusiveLock, 
+		                Timeout: TTimeout = Forever)
+		# TNanoTime
+		
+		# TODO timed wait
+		
+		Signal!: function()
+		Broadcast!: function()
+		
+		# has queue of waiters
+		
+	TMonitor = class:
+		# one hidden mutex held by all routines
+		# waiting on a condition causes mutex lock before successful return
+
+Atomic_Increment: function(A: T): T inline
+Atomic_Decrement: function(A: T): T inline
+Atomic_Exchange: function(A, B: T): T, T inline # (B, A)
+#Test_And_Set: 
+
+Enter_Critical_Section!: function() inline
+Leave_Critical_Section!: function() inline
+
+# Compare_And_Swap: function(Value: ^TCardinal, New_Value: TCardinal): TCardinal, TBoolean
+
+
+# TODO join/exit
+

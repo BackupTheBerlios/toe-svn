@@ -1,0 +1,69 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix"
+
+# linux only so far
+
+types:
+	TUnixTime: TCardinal() # TODO add nice functions?
+	TUserId: TCardinal?:
+		None = 0
+		
+	TGroupId: TCardinal?
+	TLong = TInteger() deprecated
+	
+	TModeTripleFlag = enumeration of TInteger():
+		Execute = 0
+		Read = 1
+		Write = 2
+		nil = 3
+		
+	TModeTriple = TSet(TModeTripleFlag):
+
+	TAlarmKind = enumeration of TInteger():
+		inherits = TInteger()
+		Real = 0
+		Virtual_ = 1
+		Prof??? = 2
+
+	TMicroTime = class: # usec
+		Seconds: TLong?
+		Microseconds: TLong?
+		# TODO from seconds as a floating point value
+
+	TNanoTime = class:
+		# smaller unit than TMicroTime
+		Seconds: TUnixTime
+		Nanoseconds: TLong:
+			Minimum = 0
+			Maximum = 999999999
+		
+	TFileDescriptor: enumeration of TCardinal():
+		Invalid = TCardinal().Maximum
+		# object-like
+		
+	THostName: TString(255)
+	
+	TUnixVersion = class:
+		System: TString(64) # "Linux"
+		Node: THostName
+		Release: TString(64)
+		Version: TString(64)
+		Machine: TString(64) # "i686"
+		Domain: THostName
+
+# setreuid WTF?!
+
+# ptrace (debugging) (request, pid, addr, data)
+
+# setpriority, renice
+
+Get_Host_Name: function(): THostName, ?? = System_Call
+Set_Host_Name: function(Name: THostName): ?? = System_Call
+
+Get_Domain_Name: function(): THostName, ?? = System_Call
+Set_Domain_Name: function(Name: THostName): ?? = System_Call
+
+Get_Unix_Version: function(): TUnixVersion, ?? = System_Call
+
+# long sysconf(int name); ?

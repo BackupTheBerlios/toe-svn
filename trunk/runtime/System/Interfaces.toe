@@ -1,0 +1,56 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Collections"
+
+types:
+	IEnumerable = interface(T: Type):
+		Map: function(Callback: function(Item: T): TObject,
+                              Data: ??): TObject
+
+		Enumerate: function(): generator(T)
+	
+	IClearable = interface(:
+		Clear!: function()
+
+	IContains = interface(T: Type):
+		Contains?: function(Item: T): TBoolean
+
+	IBaseSet = interface(T: Type):
+		assert(T is IComparable)
+		inherits = IContains(T)
+		# IEnumerable ?
+		
+		Remove!: function(Item: T)
+		Lookup: function(Item: T): T
+		Contains?: function(Item: T): TBoolean
+		Count: property(TCardinal):
+			Stored = False
+			
+	ISet = interface(T: Type):
+		inherits = (IBaseSet(T), IEnumerable(T))
+		Add!: function(Item: T)
+	
+	IDictionary = interface(Key_Type, Value_Type: Type):
+		inherits = (IBaseSet(Key_Type), IEnumerable(Key_Type))
+		Set!: function(Key: Key_Type, Value: Value_Type)
+		Lookup: function(Key: Key_Type): Value_Type
+
+	IList = interface(T: Type):
+		inherits = IEnumerable(T)
+		Add!: function(Item: T)
+		Remove!: function(Item: T)
+		Count: property(TCardinal):
+			Stored = False
+
+	IArrayList = interface(T: Type):
+		inherits = (IList(T), IEnumerable(T))
+		Get_At: immutable function(Index: TCardinal): T
+		Set_At!: function(Index: TCardinal, Value: T)
+		callable = (Get_At, Set_At)
+		
+	IOrderedSet = interface(T: Type):
+		inherits = (ISet(T), IArrayList(T), IEnumerable(T))
+		                                                
+	IComparable = interface(T: Type):
+		operator "<->": function(Right: T or IComparable): TComparer
+

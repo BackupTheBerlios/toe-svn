@@ -1,0 +1,65 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Memory"
+
+types:
+	# Henry Baker, "Treadmill"
+	
+	#The only requirements of tricolor marking are: 
+	# 1) it is easy to enumerate free cells for allocation; 
+	# 2) it is easy to enumerate grey cells; 
+	# 3) it is easy to determine the color of a cell; 
+	# 4) it is easy to change the color of a cell; and 
+	# 5) it is easy to interchange the interpretation of the colors white and black.
+
+	TMemoryChunk = class:
+		inherits = TLinkedNode
+		Ecru?: TBoolean
+	
+	TTreadmill = class:
+		Bottom: nilable(TMemoryChunk)
+		Top: nilable(TMemoryChunk)
+		Free: nilable(TMemoryChunk)
+		Scan: nilable(TMemoryChunk)
+
+		# cyclic order: bottom, ecru, top, grey, scan, black, free, white, bottom.
+		
+		# When the mutator allocates a cell, the free pointer is moved one cell "forward", 
+		# thus changing a white (free) cell directly into a black (allocated) cell. 
+		
+		# When the cell under the scan pointer has been scanned, the scan pointer is moved 
+		# "backward", thus changing a grey cell into a black cell. 
+		
+		# To scan a grey cell, its visible pointers must be checked. 
+		# If a scanned pointer is black or grey, we do nothing
+		# but if the scanned pointer is ecru, it is unlinked from the ecru segment between bottom and top, 
+		# and relinked into the grey area, 
+		# either at the scan pointer--for depth-first ordering, 
+		# or at the top pointer--for breadth-first ordering.
+		
+		# Notice that only one bit of color distinction must be stored in the cell--whether or not it is ecru.
+		
+		# When the scan pointer meets the top pointer, the collection cycle has finished
+		
+		# when the free pointer meets the bottom pointer, we must "flip"
+		# At this point, we have cells of only two colors--black and ecru.
+		# To flip, we make ecru into white and black into ecru; bottom and top are then exchanged.
+		# The root pointers are now "scanned" by making them grey; 
+		# the cells they point to are unlinked from the ecru region
+		# and linked into the grey region.(between scan and top).
+		
+		# We can restart the collector, as it now has grey cells to scan.
+		
+		# The "treadmill" optimization eliminates the need to resnap links during mutator allocation 
+		# and when changing from grey to black. 
+		
+		# However, we must still resnap links when changing from ecru to grey,
+		# since we need to separate the accessible ecru cells from the garbage ecru cells.
+
+		# In the exposition above, we explicitly "moved" cells from the ecru list to the grey list. 
+		# On a multi-processor system, however, we might rather move the cell directly from the white list 
+		# to the black list, but also put it onto a marker stack. 
+		
+		# In this modified scheme, a grey cell is a black cell which is also on the marker stack. 
+		# This optimization may be useful in reducing the latency in the mutator's read barrier.
+

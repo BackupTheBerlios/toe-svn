@@ -1,0 +1,68 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Obscure"
+
+# Make_Special_File: ...
+# uselib
+# reboot
+# swapon
+# swapoff
+# idle
+# vm86
+# modify_ldt
+# klogctl
+# syslog
+# sigreturn
+# iopl
+# vhangup
+
+# int get_kernel_syms(struct kernel_sym *table);
+# int create_module(char *module_name, unsigned long size);
+# int init_module(char *module_name, char *code,
+#                 unsigned codesize, struct mod_routines *routines,
+#                 struct symbol_table *symtab);
+# int delete_module(char *module_name);
+# query_module
+# quotactl
+
+# fchdir
+
+# bdflush
+# "sysfs"
+# afs_syscall
+
+# personality
+
+# readdir
+
+# flock?
+
+# mlockall
+# munlockall
+
+# int setresuid(uid_t ruid, uid_t euid, uid_t suid);
+# int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
+
+# getpmsg unimplemented
+# setpmsg unimplemented
+
+# poll
+
+# nfsservctl
+
+# prctl PR_SET_PDEATHSIG
+# prctl PR_SET_DUMPABLE
+# prctl PR_SET_KEEPCAPS
+
+# madvise1, rt_sigaction, rt_sigpending, rt_sigprocmask, rt_sigqueueinfo,
+# rt_sigreturn, rt_sigsuspend, rt_sigtimedwait, ugetrlimit - undocumented
+#  system calls
+
+# pread, pwrite
+
+
+# capget()  und  capset(): ftp://linux.kernel.org/pub/linux/libs/security/linux-privs
+
+# sigaltstack
+
+# vfork

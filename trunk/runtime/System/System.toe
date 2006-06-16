@@ -1,0 +1,105 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+types:
+	TVoid = builtin
+	
+	TIntegerRegisterSize = enumeration of TByte: # bits
+		(8, 16, 32, 64)
+		default = builtin # usually 32
+		
+	TInteger(Total_Bits_Count: TIntegerRegisterSize default builtin) = builtin(Total_Bits_Count)
+	TCardinal(Total_Bits_Count: TIntegerRegisterSize default builtin) = builtin(Total_Bits_Count)
+	
+	TPointer(T: Type default TVoid) = enumeration of builtin(T):
+		inherits = builtin(T)
+		nil = 0
+	
+	TByte = TCardinal(8)
+
+	TUnicodeString = unknown
+	
+	TString = TUnicodeString
+
+Compilation_Error: deadly function(Code: TCardinal(), Message: TUTF8String): TVoid = builtin constant
+
+types:
+	TArchitecture = class:
+		Architecture: TSymbol(TString)
+		Cpu: TSymbol(TString)
+		Instruction_Sets: TSet(TSymbol(TString))
+		Fixed_Point?: TBoolean
+		
+	TDistribution = class:
+		Operating_System: TSymbol(TString)
+		Command_Sets: TSet(TSymbol(TString)) # posix, bsd, linux, ...
+
+	TTarget = class:
+		Architecture: TArchitecture
+		Distribution: TDistribution
+
+Target: TTarget = builtin constant
+
+types:
+	TSize: TCardinal()
+	TOffset = TSize
+	
+types:
+	TFloatingPointRegisterSize = enumeration of TByte: # bits
+		(32, 64)
+		default = builtin # usually 32
+
+	TFloatingPoint(Total_Bits_Count: TFloatingPointRegisterSize) = enumeration of builtin(Total_Bits_Count):
+		inherits = builtin(Total_Bits_Count)
+		Not_A_Number = builtin
+		Positive_∞ = builtin
+		Negative_∞ = builtin
+		Positive_Infinity = Positive_∞
+		Negative_Infinity = Negative_∞
+		nil = Not_A_Number
+
+	if Target.Architecture.Fixed_Point? == true:
+		TFixedPoint(Fraction_Bits_Count: (8, 16, 24) default 16) = builtin(Fraction_Bits_Count)
+		TUnsignedFixedPoint(Fraction_Bits_Count: (8, 16, 24) default 16) = builtin(Fraction_Bits_Count)
+	
+		# actually some processors support a variable number of fraction bits per operation (mul, ...),
+		TReal = TFixedPoint()
+	else:
+		TReal = TFloatingPoint()
+
+types:
+	TBoolean(Total_Bits_Count: TIntegerRegisterSize) = enumeration of TInteger(Total_Bits_Count):
+		False = 0
+		True = 1
+		nil = 126
+		
+	# TODO 1 bit?
+
+types:
+	TBiggestInteger = TInteger(64)
+	TBiggestCardinal = TCardinal(64)
+	TBiggestFloatingPoint = TFloatingPoint(64)
+
+types:
+	TComparer: TInteger
+
+	# TODO streams
+		
+	TTimeout = enumeration of TFloatingPoint(): # in seconds
+		inherits = TFloatingPoint()
+		Minimum = 0.0
+		Forever = TFloatingPoint().Positive_Infinity
+		nil = TFloatingPoint().Not_A_Number
+		
+
+
+types:
+	TMemoryBlock = class:
+		Start: TPointer
+		Size: TSize
+		
+# ordinal type?
+# Ordinal types denote sets of values in which each value has a unique successor.
+
+# maybe disconnect enumerations from the type? probably not.

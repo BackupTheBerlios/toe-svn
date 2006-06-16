@@ -1,0 +1,92 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Time"
+
+types:
+	TIntervalTimerKind = enumeration:
+		Real = ?
+		Virtual = ?
+		Profiling = ?
+
+	THumanDayOfWeek = enumeration of TInteger():
+		Sunday = 0
+		Monday = 1
+		Tuesday = 2
+		Wednesday = 3
+		Thursday = 4
+		Friday = 5
+		Saturday = 6
+
+	THumanDaylightSavingTimeFlag = enumeration of TInteger():
+		Unknown_ = -1
+		Disabled = 0
+		Enabled = 1
+
+	TTimeZoneId: TString(40)
+		
+	THumanTime = class:
+		Second: TByte:
+			Maximum = 60
+			
+		Minute: TByte:
+			Maximum = 59
+			
+		Hour: TByte:
+			Maximum = 23
+			
+		Day_Of_Month: TByte:
+			Minimum = 1
+			Maximum = 31
+			
+		Month: TByte:
+			Minimum = 1 # XXX
+			Maximum = 12 # XXX
+			
+		Year: TInteger():
+			Minimum = 1900
+			Maximum = 2037
+			
+		Day_Of_Week: THumanDayOfWeek
+		Day_Of_Year: TCardinal():
+			Minimum = 1 # XXX
+			Maximum = 365 + 1 # XXX
+			
+		Daylight_Saving_Time: THumanDaylightSavingTimeFlag
+		
+		# BSD, Linux:
+		GMT_East_Offset: TLong # seconds, signed
+		Time_Zone: TTimeZoneId # arbitrary limit
+		
+	TLocalTime: TUnixTime
+	TGreenwichMeanTime = TUnixTime
+	
+# too low-resolution: Current_Time: function(): TUnixTime = System_Call
+# too low-resolution: Set_Time!: function(Time: TUnixTime): ?? = System_Call
+Time: TMicroTime = property(TMicroTime)
+
+# TTimeZone unsupported by kernel
+Get_Time_Of_Day!: function(): (TMicroTime, IGNORE:TTimeZone, ??) = System_Call
+Set_Time_Of_Day!: function(Time: TMicroTime, nil): ?? = System_Call
+
+Start_Interval_Timer!: function(Kind: TIntervalTimerKind, 
+                                Counter: TMicroTime,
+                                Reset_To: TMicroTime = 0): ?? = System_Call
+
+Query_Interval_Timer!: function(Kind: TIntervalTimerKind):
+                                TMicroTime, 
+                                TMicroTime, 
+                                ?? = System_Call
+
+Get_Human_Time: function(Time: TLocalTime): THumanTime, ??
+Get_Human_Time: function(Time: TGreenwichMeanTime): THumanTime, ??
+
+# Get_Unix_Time: function(Time: THumanTime): TGreenwichMeanTime, ??
+
+Get_Unix_Time: function(Time: THumanTime): TLocalTime, ??
+Get_Time_Zone: function(): TTimeZoneId
+
+# ?? extern double difftime (time_t __time1, time_t __time0)
+
+# strftime, strptime, asctime, ctime
+
+# init: tzset

@@ -1,0 +1,40 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Process"
+
+types:
+	TResourceUsage = class:
+		Address_Space_Size: TSize
+		Core_Size: TSize
+		CPU_Time: TMicroTime # TODO usages has that split into user and system
+		Data_Size: TSize
+		File_Size: TFileSize
+		# Locks
+		Locked_Memory_Size: TSize
+		Message_Queue_Size: ?
+		Process_Niceness_Ceiling: ?
+		File_Descriptor_Count: TCardinal
+		Process_Count: TCardinal
+		# RLIMIT_RSS unused
+		Real_Time_Priority_Ceiling: ?
+		Pending_Signal_Count: ?
+		Stack_Size = ?
+		
+	TSystemStatistics = class:
+		Uptime: TUnixTime # TLong
+		Load_1: ?
+		Load_5: ?
+		Load_15: ?
+		Total_RAM: TSize
+		Free_RAM: TSize
+		Shared_RAM: TSize
+		Buffer_RAM: TSize
+		Total_Swap: TFileSize
+		Free_Swap: TFileSize
+		# + pad
+
+Usage: TResourceUsage ?? = builtin
+Hard_Limits: TResourceUsage = builtin
+Soft_Limits: TResourceUsage = builtin
+System_Statistics: TSystemStatistics = builtin
+

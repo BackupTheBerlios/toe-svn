@@ -1,0 +1,23 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Thread"
+
+types:
+	TThreadFunction = function(Argument: TPointer): TInteger
+	TThreadFlags = TSet(enumeration of TInteger()):
+		inherits = TInteger()
+		Virtual_Memory? = reverse ?
+		File_System? = reverse ?
+		File_Descriptors? = reverse ?
+		Signal_Handlers? = reverse ?
+		# Process_Id -> always has it's own
+
+
+namespace "org.scratchpost.toe.System.Unix.Process.Current"
+using namespace "org.scratchpost.toe.System.Unix.Thread"
+
+Clone: function(The_Function: TThreadFunction,
+                Child_Stack: TPointer,
+                Flags: TThreadFlags,
+                Argument: TPointer): ?? = System_Call
+

@@ -1,0 +1,68 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+types:
+	TASCIICharacter = TCardinal(8):
+		Maximum = 127
+                        
+	TUnicodeCharacter: TCardinal(32):
+		Null = 0
+		Start_Of_Heading = 1
+		Start_Of_Text = 2
+		End_Of_Text = 3
+		End_Of_Transmission = 4
+		Enquiry = 5
+		Acknowledge = 6
+		Bell = 7
+		Backspace = 8
+		Character_Tabulation = 9
+		Line_Feed = $A
+		Line_Tabulation = $B
+		Form_Feed = $C
+		Carriage_Return = $D
+		Shift_Out = $E
+		Shift_In = $F
+		Data_Link_Escape = $10
+		Device_Control_One = $11
+		Device_Control_Two = $12
+		Device_Control_Three = $13
+		Device_Control_Four = $14
+		Negative_Acknowledge = $15
+		Synchronous_Idle = $16
+		End_Of_Transmission_Block = $17
+		Cancel = $18
+		End_Of_Medium = $19
+		Substitute = $1A # replacement character
+		Escape = $1B
+		Information_Separator_Four = $1C # file separator
+		Information_Separator_Three = $1D # group separator
+		Information_Separator_Two = $1E # record separator
+		Information_Separator_One = $1F # unit separator
+		Space = $20
+		# TODO ...
+
+	TUnicodeString(Length_Limit: TCardinal,
+	               Static_Memory_Block: nilable(TMemoryBlock)
+	                 default nil) = TArrayList(TUnicodeCharacter, 
+	                                           Length_Limit,
+	                                           Static_Memory_Block)
+
+	# Size: including the zero terminator, if any.
+	TEncodedString(Size_Limit: TSize, 
+	               Static_Memory_Block: nilable(TMemoryBlock) 
+	                 default nil) = TArrayList(TByte, 
+	                                           TCardinal()(Size_Limit), 
+	                                           Static_Memory_Block)
+
+	TUTF8String(Size_Limit: TSize,
+                    Static_Memory_Block: nilable(TMemoryBlock)
+                      default nil): TEncodedString(Size_Limit,
+                                                   Static_Memory_Block)
+	
+	TASCIIString(Length_Limit: TCardinal,
+	             Static_Memory_Block: nilable(TMemoryBlock)
+	               default nil) = TArrayList(TASCIICharacter, 
+	                                         Length_Limit,
+	                                         Static_Memory_Block)
+

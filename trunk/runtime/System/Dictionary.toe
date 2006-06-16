@@ -1,0 +1,49 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Collections"
+
+"""
+A dictionary stores a key -> value mapping, like a real dictionary book does, too.
+Access is reasonably fast, usually log2(N)
+
+Lookup will return nil if no value was found.
+This also means that the type returned is nullable.
+This was chosen in order to avoid raising an exception every 
+like 5 seconds when a non-existant key is looked up.
+
+Note that therefore, storing nil as a value means to delete the entry.
+Flame me if you want.
+
+"""
+
+types:
+	TDictionary = class(Key_Type: Type, 
+	                    Value_Type: Type, 
+	                    Length_Limit: TCardinal 
+	                      default TCardinal.Maximum):
+		# TRedBlackTree(T: Type, Length_Limit: TCardinal default TCardina
+
+		implements = (IClearable, IContains(Key_Type), IBaseSet(Key_Type))
+
+		Set!: function(Key: Key_Type, Value: nilable(Value_Type))
+		Lookup: function(Key: Key_Type): nilable(Value_Type)
+		Contains?: function(Key: Key_Type): TBoolean
+		
+		callable = (Lookup, Set!)
+		operator "in" = Contains?
+		
+		# Map
+
+		Count = property(TCardinal)
+
+hidden types:
+		TDictionaryRedBlackTree = class(Key_Type, Value_Type: Type, 
+		                                Length_Limit: TCardinal 
+		                                  default TCardinal.Maximum):
+			inherits = TRedBlackTree(Key_Type)
+
+			TNode = override class(Key_Type, Value_Type: Type) type:
+				inherits = TRedBlackTree.TNode(Key_Type)
+
+				Value: Value_Type
+

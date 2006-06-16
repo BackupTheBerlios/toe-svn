@@ -1,0 +1,40 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Collections"
+
+types:
+	TBinarySearchTree = class(T: Type, Length_Limit: TCardinal default TCardinal.Maximum):
+		implements = (IBaseSet(T), IEnumerable(T))
+		
+		TNode = virtual class(T: Type) type:
+			Left: property(nilable(TNode))
+			Right: property(nilable(TNode))
+			Parent: property(nilable(TNode))
+			Key: property(T)
+			
+			operator "<->": function(Right: TNode): TComparer
+
+		Add!: virtual # function(Item: T)
+		Remove!: virtual # function(Item: T)
+
+		# Sentinel: TNode
+		
+		Root = property(TNode)
+
+	TRedBlackTree = class(T: Type, Length_Limit: TCardinal default TCardinal.Maximum):
+		# Map
+		inherits = TBinarySearchTree(T, Length_Limit)
+
+		TNode = override class(T: Type) type:
+			inherits = TBinarySearchTree.TNode(T)
+			
+			TColor = enumeration type:
+				Red = 0
+				Black = 1
+				default = Red
+			
+			Color = property(TColor)
+	
+		Add!: override # function(Item: T)
+		Remove!: override # function(Item: T)
+

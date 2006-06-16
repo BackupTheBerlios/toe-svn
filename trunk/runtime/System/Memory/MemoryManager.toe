@@ -1,0 +1,16 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Memory"
+
+types:
+	TMemoryBlock = class:
+		Start: TPointer
+		Size: TSize
+		
+	TMemoryManager = class:
+		Allocate!: function(Size: TSize): TPointer raises EOutOfMemory
+		Release!: function(Start: TPointer) raises ECorruptedMemoryMap
+		Resize!: function(Start: TPointer, New_Size: TSize): TPointer raises EOutOfMemory
+		Is_Valid_Pointer: function(Start: TPointer): TBoolean
+		Blocks: property(generator(TMemoryBlock))
+

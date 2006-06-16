@@ -1,0 +1,253 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.File"
+
+unknown Maximum_Path_Length: TCardinal
+unknown Maximum_File_Name_Length: TCardinal
+
+types:
+	TDeviceId: TCardinal(64) # at least on Linux, sigh.
+	TInodeId: TCardinal()
+	TPath: TString(Maximum_Path_Length)
+	TFileSize: TCardinal()
+	TFileOffset = TFileSize # way too many issues otherwise
+	
+	TErrorOrFileSize = enumeration of TFileSize:
+		Error = TFileSize.Maximum
+		
+	TFileKind = enumeration of TInteger():
+		# BSD values differ
+		Regular = builtin
+		Directory = builtin
+		Character_Device = builtin
+		Block_Device = builtin
+		FIFO = builtin
+		Link = builtin # not in POSIX.1-1996
+		Socket = builtin # not in POSIX.1-1996
+
+	TScaryMode = TSet(enumeration of TInteger()):
+		Become_User = ?
+		Set_Group = ?
+		Sticky = ?
+
+	TMode = class:
+		Owner: TModeTriple = property
+		Group: TModeTriple = property
+		World: TModeTriple = property
+		Scary: TScaryMode
+
+	TFileStatus = class:
+		Device: TDeviceId = property
+		Inode: TInodeId = property
+		Mode: TMode = property
+		Kind: TFileKind = property
+		Link_Count: TCardinal()
+		User: TUserId
+		Group: TGroupId
+		Real_Device: TDeviceId # for device nodes
+		Size: TFileSize
+		Block_Count: TCardinal(?)
+		Block_Size: TFileSize
+		Last_Access: TNanoTime
+		Last_Modification: TNanoTime
+		Last_Status_Change: TNanoTime
+		# st->st_mtime = timeval.tv_sec
+		# st->st_mtim.ST_MTIM_NSEC = timeval.tv_usec * 1000;
+		# st->st_mtime_nsec
+	
+	TUnmountFlags = TSet(enumeration of TInteger()):
+		Expire = ?
+		Detach = ?
+		Force = ?
+
+	TFilesystemStatistics = class:
+		Kind: TLong
+		Optimal_Block_Size: TLong
+		Block_Count: TLong
+		Free_Block_Count: TLong
+		Available_Block_Count: TLong
+		Inodes_Count: TLong
+		Free_Inodes_Count: TLong
+		File_System_Id: ???
+		Maximum_Name_Length: TLong
+		# Spare[6]
+
+	TMountFlags = TSet(enumeration of TLong):
+		Read_Only = 0
+		No_Scary_Mode = 1
+		No_Device_Files = 2
+		No_Executables = 3
+		Synchronized = 4
+		Remount = 5
+		
+	TDirectoryEntry = class:
+		Inode: TInodeId
+		Next: TFileSize
+		## ... Length: TCardinal(16)
+		Name: TPath(Maximum_File_Name_Length)
+		
+	TOpenFlags = TSet(enumeration of TInteger()):
+		Read = ?
+		Write = ?
+		Create = ?
+		Exclusive = ?
+		# O_NOCTTY
+		Truncate = ?
+		Append = ?
+		Blocking = ?
+		Synchronous = ?
+		
+	TLockKind = enumeration:
+		Read = ?
+		Write = ?
+		#None = ? # damnit will they ever learn?
+		
+	TLockWhence = enumeration:
+		From_Head = ?
+		Relative = ?
+		From_Tail = ?
+		
+	TLockInformation = class:
+		Kind: TLockKind # NO: on None: other fields are gibberish
+		Whence: TLockWhence
+		Start: TFileOffset
+		Size: TFileSize
+		Process: TProcessId
+
+Change_Mode: function(Path: TPath, Mode: TMode): ?? = System_Call
+Change_Mode!: function(File: TFileDescriptor, Mode: TMode): ?? = System_Call
+
+Change_Owner: function(Path: TPath, Owner: TUserId, Follow_Symbolic_Links: TBoolean): ?? = System_Call
+Change_Owner!: function(File: TFileDescriptor, Owner: TUserId, Follow_Symbolic_Links: TBoolean): ?? = System_Call
+
+
+# sys_newlstat !!
+Query_Status: function(Path: TPath, Follow_Symbolic_Links: TBoolean): TFileStatus ?? = System_Call
+Query_Status: function(File: TFileDescriptor): TFileStatus ?? = System_Call
+# -EOVERFLOW
+
+Mount_Filesystem: function(Source: TString, 
+                           Target_Directory: TPath, 
+                           File_System_Kind: TString, 
+                           Flags: TMountFlags, 
+                           data: Pointer): ?? = System_Call
+
+Unmount_Filesystem: function(Directory_Path: TPath, Flags: TUnmountFlags): ?? = System_Call
+
+Set_Times: function(Path: TPath, Access_Time, Modification_Time: TMicroTime): ?? = System_Call
+
+# Access = nil just tests for existance
+# The check is done with the process's real uid and gid, 
+# rather than with the effective ids as is done when actually 
+# attempting an operation. This is to allow set-UID programs 
+# to easily determine the invoking user's authority.
+Test_Access: function(Path: TPath, Access: nilable(TModeTripleFlag)): ?? = System_Call
+
+Synchronize_All: function(): ?? = System_Call
+
+Synchronize!: function(File: TFileDescriptor): ?? = System_Call # fdatasync
+
+Rename: function(Old_Path, New_Path: TPath): ?? = System_Call
+
+Create_Link: function(Current_Path, New_Path: TPath): ?? = System_Call
+
+Create_Symbolic_Link: function(Current_Path, New_Path: TPath): ?? = System_Call
+
+Resolve_Symbolic_Link: function(Path: TPath): TString, ?? = System_Call
+
+Delete_Link: function(Path: TPath): ?? = System_Call # unlink
+
+# TODO default
+Create_Directory: function(Path: TPath; Mode: TMode): ?? = System_Call
+
+Delete_Directory: function(Path: TPath): ?? = System_Call
+
+Duplicate!: function(Descriptor: TFileDescriptor): TFileDescriptor ?? = System_Call
+
+Duplicate_To: function(Descriptor, New_Descriptor: TFileDescriptor): TFileDescriptor ?? = System_Call
+
+# TODO ioctl
+# TODO fcntl
+
+# mpx unimplemented
+
+# OLD Stat_Filesystem: function(Device: TDeviceId): TFilesystemStatistics = System_Call
+
+Query_Filesystem_Status: function(Path: TPath): TFilesystemStatistics, ?? = System_Call
+Query_Filesystem_Status: function(File: TFileDescriptor): TFilesystemStatistics, ?? = System_Call
+
+Truncate: function(Path: TPath, Size: TFileSize): ?? = System_Call
+
+Read_Directory_Entries!: function(Directory: TFileDescriptor, 
+                                 Count: TCardinal): TDirectoryEntry, ?? = System_Call
+
+Seek_From_Head!: function(File: TFileDescriptor, Offset: TFileOffset): ?? = System_Call
+Seek_From_Tail!: function(File: TFileDescriptor, Offset: TFileOffset): ?? = System_Call
+Seek_Relative!: function(File: TFileDescriptor, Offset: TFileOffset): ?? = System_Call
+# ^ llseek; note: TWO l
+
+Select_File: function(Read: TSet(TFileDescriptor),
+                      Write: TSet(TFileDescriptor),
+                      Error: TSet(TFileDescriptor),
+                      Timeout: nilable(TMicroTime),
+                      Signal_Mask: nilable(??)): 
+                      TSet(TFileDescriptor), # read
+                      TSet(TFileDescriptor), # write
+                      TSet(TFileDescriptor), # error
+                      ?? = System_Call
+
+# TODO pselect
+
+Create!: function(Path: TPath,
+                  Mode: TMode): ??, TFileDescriptor = System_Call
+
+Open!: function(Path: TPath, 
+                Flags: TOpenFlags,
+                Mode: TMode): ??, TFileDescriptor = System_Call
+
+Read!: function(File: TFileDescriptor, 
+                Buffer: TPointer, 
+                Size: TSize): TErrorOrFileSize = System_Call
+
+Write!: function(File: TFileDescriptor, 
+                 Buffer: TPointer, 
+                 Size: TSize): TErrorOrFileSize = System_Call
+
+Close!: function(File: TFileDescriptor): ?? = System_Call
+
+Truncate!: function(File: TFileDescriptor, Size: TFileSize): ?? = System_Call
+
+# TODO readv writev
+
+# fcntl DUP_FD not done
+# fcntl F_GETOWN not done
+# fcntl F_SETLEASE not done
+# fcntl F_NOTIFY not done
+# fcntl F_SETSIG not done
+
+# can EINTR
+# implemented using fcntl F_SETLK
+Acquire_Read_Lock!: function(File: TFileDescriptor, 
+                             Start: TFileOffset,
+                             Size: TFileSize,
+                             Wait?: TBoolean): ?? = System_Call
+
+Acquire_Write_Lock!: function(File: TFileDescriptor, 
+                              Start: TFileOffset,
+                              Size: TFileSize,
+                              Wait?: TBoolean): ?? = System_Call
+
+Get_Lock_Information: function(File: TFileDescriptor): nilable(TLockInformation)
+
+# stupid order: ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
+Send_File!: function(Source, Destination: TFileDescriptor,
+                     Offset: TFileOffset,
+                     Size: TFileSize): TErrorOrFileSize = System_Call
+
+# parses and removes ".." etc
+Normalize: function(Path: TPath): TPath
+
+Create_Pipe: function(): (TFileDescriptor, TFileDescriptor, ??) = System_Call
+
+# TODO errno? hrm...
+

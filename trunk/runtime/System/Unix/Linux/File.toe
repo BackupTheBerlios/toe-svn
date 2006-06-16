@@ -1,0 +1,12 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System.Unix.Process"
+#using "org.scratchpost.toe.System.Unix.File"
+
+Maximum_Path_Size: constant TSize = 4095
+Maximum_File_Name_Size: constant TSize = 255
+
+Set_Filesystem_User!: function(User: TUserId): TUserId = System_Call
+Set_Filesystem_Group!: function(Group: TGroupId): TGroupId = System_Call
+
+# XXX Get_Filesystem_User
