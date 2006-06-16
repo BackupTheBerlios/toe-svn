@@ -1,0 +1,14 @@
+(prototype doc)
+
+configurable:
+- lexer rules
+- of them, keywords
+- of them, comments
+- of them, strings
+- of them, intellisense triggers (e.g. ".", "::")
+- (of them, virtual indent triggers)
+- auto-tabbing rules
+- smart-home, smart-back, purify
+- mime-type list(, description) <-> xdgmime
+- beware of stuff like #if 0 ... #endif that can't be represented as a clean lexer rule
+

@@ -1,0 +1,6 @@
+
+support utf-8 byte-order mark 
+support non-utf-8 stuff? no, but at least warn? no
+
+add mouse-hover event for 1) quick debugging and 2) a "goto declaration" menuitem
+
