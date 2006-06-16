@@ -1,0 +1,5 @@
+
+implement enumerations as a namespace so that
+        extension
+        deprecation
+of values is possible (think errno)

@@ -1,0 +1,12 @@
+
+type parameters everywhere, 
+at least with 
+  - classes
+  - functions
+
+Also allow "unfilled" type parameters in function declarations.
+
+like:
+  Foo: function(bla: TSet)
+(although TSet _does_ take type parameters)
+

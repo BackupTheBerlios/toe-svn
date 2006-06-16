@@ -1,0 +1,4 @@
+
+thread-local storage (i.e. errno)
+
+allocated on the thread stack (also thread-local globals)
