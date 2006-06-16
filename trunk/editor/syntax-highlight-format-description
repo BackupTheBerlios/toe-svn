@@ -4,7 +4,7 @@ configurable:
 - lexer rules
 - of them, keywords
 - of them, comments
-- of them, strings
+- of them, literal strings/numbers
 - of them, intellisense triggers (e.g. ".", "::")
 - (of them, virtual indent triggers)
 - auto-tabbing rules
