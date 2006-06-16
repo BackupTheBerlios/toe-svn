@@ -1,0 +1,237 @@
+# PASCAL highlighter for JOE
+
+=Idle
+=Comment green
+=Constant cyan
+=Type green
+#bold
+=Keyword bold
+=Directive bold
+=Operator green
+=Function bold
+=Escape         bold cyan
+
+:idle Idle
+	*		idle
+	"a-zA-SU-Z"	ident		buffer
+	"T"	maybe_type buffer
+	"I"	maybe_type buffer
+	"#"	line_comment	recolor=-1
+	"("		maybe_comment
+	"{"		comment		recolor=-1
+	"'"		string		recolor=-1
+	"0-9"		number		recolor=-1 
+        "\""            string_dq_1     recolor=-1
+	":"		assignment_or_type_binding  recolor=-1
+	"$"	hex recolor=-1
+	"."	dot_1
+
+:dot_1 Idle
+	* idle noeat
+	"."	dot_2
+
+:dot_2 Idle
+	* idle noeat
+	"."	dot_3 recolor=-3
+
+:dot_3 Keyword
+	* idle
+# for tuple unrolling
+        
+:hex Constant
+	* idle noeat
+	"A-Fa-f0-9"	hex
+
+:string_dq_1 Constant
+	*		string_dq	noeat
+	"\""		string_dq_2
+
+:assignment_or_type_binding Type
+	"="	assignment recolor=-1
+	* idle noeat
+
+:type_a Type
+	* idle noeat
+	"A-Za-z0-9?_"	type_a
+	
+:maybe_type Idle
+	* ident noeat
+	"A-Z"	type_a recolor=-2
+
+:assignment Operator
+	* idle noeat
+	
+:string_dq_2 Constant
+	*		idle		noeat
+
+:string_dq Constant
+	*		string_dq
+	"\""		idle
+	"\\"		string_dq_esc	recolor=-1
+
+:string_dq_esc Escape
+	*		string_dq
+	"\n"		string_dq	recolor=-2
+
+# Comments
+
+:line_comment Comment
+	*	line_comment
+	"\n"	idle
+
+:maybe_comment Idle
+	*		idle		noeat
+	"*"		comment		recolor=-2
+
+:comment Comment
+	*		comment
+	"*"		maybe_end_comment
+	"}"		idle
+
+:maybe_end_comment Comment
+	*		comment		noeat
+	")"		idle
+
+
+# String constant
+
+:string Constant
+	*		string
+	"\n"		idle
+	"'"		maybe_end_string
+
+:maybe_end_string Constant
+	*		idle		recolor=-1 noeat
+	"'"		string
+
+# Numeric constant
+
+:number Constant
+	*		idle		noeat
+	"0-9"		number
+	"eE"		epart
+	"."		dot
+
+:dot Constant
+	*		idle	noeat
+	"0-9"		float
+
+:float Constant
+	*		idle	noeat
+	"eE"		epart
+	"0-9"		float
+
+:epart Constant
+	*		idle	noeat
+	"0-9+\-"	enum
+
+:enum Constant
+	*		idle	noeat
+	"0-9"		enum
+
+
+# Keywords
+
+:ident Idle
+	*		idle		noeat istrings
+	"namespace" kw
+	"using" kw
+	"function" kw
+	"System_Call" kw
+	"builtin" kw
+	"deadly" directive
+	"types" kw
+	"type" kw
+	"class" kw
+	"property" kw
+	"TVoid" type
+	"TCardinal" type
+	"TInteger" type
+	"TCardinal64" type
+	"TInteger64" type
+	"TCardinal32" type
+	"TInteger32" type
+	"TCardinal16" type
+	"TInteger16" type
+	"TCardinal8" type
+	"TInteger8" type
+	"TBoolean" type
+	"TBoolean8" type
+	"TBoolean16" type
+	"TBoolean32" type
+	"TBoolean64" type
+	"TPointer" type
+	"TByte" type
+	"TSet" type
+	"TComparer" type
+	"enumeration" kw
+	"TFloatingPoint" type
+	"TFloatingPoint32" type
+	"TFloatingPoint64" type
+	"TString" type
+	"TSymbol" type
+	"of" kw
+	"constant" useless
+	"select" kw
+	"case" kw
+	"if" kw
+	"else" kw
+	"assembly" kw
+	"Result" kw
+	"in" kw
+	"for" kw
+	"inline" kw
+	"true" directive
+	"false" directive
+	"nil" directive
+	"nilable" directive
+	"default" kw
+	"unknown" kw # "extern"
+	"implements" directive
+	"inherits" directive
+	"protected" kw
+	"virtual" kw
+	"override" kw
+	"callable" kw
+	"interface" kw
+	"operator" kw
+	"or" kw
+	"and" kw
+	"xor" kw
+	"not" kw
+	"hidden" kw
+	"immutable" kw # ?
+	"assert" kw
+	"generator" kw
+	"raises" kw
+	"is" kw
+	"global" kw
+	"volatile" kw
+	"deprecated" directive
+	"while" kw
+	"yield" kw
+	"as" kw
+	"invariant" kw
+done
+	"a-zA-Z0-9_"	ident
+
+:kw Keyword
+	*	idle	noeat
+
+:useless Keyword
+	*	idle	noeat
+
+:directive Directive
+	*	idle	noeat
+	        
+:type Type
+	*	idle	noeat
+
+:operator Operator
+	*	idle	noeat
+
+:word_constant Constant
+	*	idle	noeat
+
+:function Function
+	*	idle	noeat
