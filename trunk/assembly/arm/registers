@@ -28,4 +28,6 @@ Register 15 is the program counter. It holds the status of the processor as
 well as a twenty-six bit number which is the address of the program
 currently being used.
 
+R15 = PC
+
 The ARM IEEE FP system has eight high precision FP registers (F0 to F7). 
