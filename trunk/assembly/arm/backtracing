@@ -1,0 +1,26 @@
+
+An extension to the protocol, used in backtracing, is to embed the function
+name into the code.
+Immediately before the function (and the MOV ip, sp), you should have the
+following: 
+        DCD     &FF0000xx
+Where 'xx' is the length of the function name string (including padding and
+terminator). This string is word-aligned, tail-padded, and should be placed
+directly before the DCD &FF.... 
+
+So, your complete stack backtrace code (<256 bytes of stack required) would
+look like: 
+        DCB     "my_function_name", 0, 0, 0, 0
+        DCD     &FF000010
+my_function_name
+        MOV     ip, sp
+        STMFD   sp!, {fp, ip, lr, pc}
+        SUB     fp, ip, #4
+
+        CMPS    sp, sl                    ; this may be omitted if you
+        BLLT    |__rt_stkovf_split_small| ; won't be using stack...
+	SUB	sp, sp, #<size of local variables>
+
+        ...process...
+
+        LDMEA   fp, {fp, sp, pc}          ; <-- append '^' for APCS-R
