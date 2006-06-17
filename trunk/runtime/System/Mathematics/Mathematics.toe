@@ -31,6 +31,8 @@ Square_Root_Positive: function(Value: TReal): TReal inline = builtin
 Root_Positive: function(Exponent, Value: TReal): TReal inline = builtin
 E_Logarithm: function(Value: TReal): TReal inline = builtin # e
 Decimal_Logarithm: function(Value: TReal): TReal inline = builtin # 10
+Absolute: function(Value: TReal): TReal inline = builtin
+
 # binary logarithm
 # atan2
 
