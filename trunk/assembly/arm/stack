@@ -1,0 +1,28 @@
+ ; ...entry, R14 points to exit location, we assume R13 is set up
+
+  STMFD R13!, {R14}
+  BL    one
+  BL    two
+  LDMFD R13!, {PC} ; exit
+
+.one
+  ; R14 points to instruction after 'BL one'
+  STMFD R13!, {R14}
+  ...do stuff...
+  LDMFD R13!, {PC} ; return
+
+.two
+  ; R14 points to instruction after 'BL two'
+  STMFD R13!, {R14}
+  ...do stuff...
+  BL    three
+  LDMFD R13!, {PC} ; return
+
+.three
+  ; R14 points to instruction after 'BL three'
+  B     four
+  ; no return
+
+.four
+  ; Not a BL, so R14 unchanged
+  LDMFD R13!, {PC} ; returns from .three because R14 not changed.
