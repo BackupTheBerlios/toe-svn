@@ -15,6 +15,7 @@ Add(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
 Subtract(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
 Negate(Vector_Type: Type): function(a: Vector_Type): Vector_Type
 Dot_Product(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type.Item_Type
+# ×
 Cross_Product(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
 Product(Vector_Type: Type): function(a: Vector_Type, b: Vector_Type.Item_Type): Vector_Type
 Length(Vector_Type: Type): function(a: Vector_Type): Vector_Type.Item_Type
