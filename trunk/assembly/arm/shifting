@@ -1,0 +1,16 @@
+The ARM processor incorporates a barrel shifter that can be used with the
+data processing instructions (ADC, ADD, AND, BIC, CMN, CMP, EOR, MOV, MVN,
+ORR, RSB, SBC, SUB, TEQ, TST). You can also use the barrel shifter to affect
+the index value in LDR/STR operations. 
+
+There are six mnemonics for the different shift types: 
+  LSL  Logical Shift Left
+  ASL  Arithmetic Shift Left
+  LSR  Logical Shift Right
+  ASR  Arithmetic Shift Right
+  ROR  Rotate Right
+  RRX  Rotate Right with Extend
+ASL and LSL are the same, and may be freely interchanged. 
+
+You can specify a shift with an immediate value (from zero to thirty one),
+or by a register which contains a value between zero and thirty one.
