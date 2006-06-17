@@ -11,3 +11,7 @@ The flags mean:
   I  IRQ             Interrupt disable
   F  FIQ             Fast Interrupt disable
   
+
+S, when applied to an instruction, causes the status flags to be updated.
+This does not happen automatically - except for those instructions whose
+purpose is to set the status.
