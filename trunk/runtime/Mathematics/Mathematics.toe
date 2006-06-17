@@ -1,6 +1,6 @@
 #!/usr/bin/env toe-interpreter
 
-namespace "org.scratchpost.toe.System.Mathematics"
+namespace "org.scratchpost.toe.Mathematics"
 using "org.scratchpost.toe.System"
 
 types:

@@ -2,7 +2,7 @@
 
 # TODO
 
-namespace "org.scratchpost.toe.System.Mathematics.Vectors"
+namespace "org.scratchpost.toe.Mathematics.Vectors"
 using "org.scratchpost.toe.System"
 
 types:

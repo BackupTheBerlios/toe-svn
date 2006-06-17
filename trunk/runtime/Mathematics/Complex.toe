@@ -2,8 +2,8 @@
 
 # TODO
 
-namespace "org.scratchpost.toe.System.Mathematics"
-using namespace "org.scratchpost.toe.System.Mathematics.Vectors"
+namespace "org.scratchpost.toe.Mathematics"
+using namespace "org.scratchpost.toe.Mathematics.Vectors"
 
 types:
 	TComplex(Item_Type: Type) = TVector2D(Item_Type) # real, complex
