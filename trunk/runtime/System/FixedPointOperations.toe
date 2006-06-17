@@ -4,13 +4,16 @@
 
 namespace "org.scratchpost.toe.System"
 
-#Remainder(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Integral_Type
-#Divide(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
-#Multiply(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
-#Add(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
-#Subtract(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
-#Negate(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Integral_Type
-#Absolute(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Integral_Type
+#Remainder(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Fixed_Point_Type.Generic(Fixed_Point_Type.Fraction_Bits_Count)
+#Divide(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Fixed_Point_Type
+Multiply(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): 
+                                  Fixed_Point_Type.Generic(Fixed_Point_Type.Fraction_Bits_Count * 2)
+Add(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Fixed_Point_Type
+Subtract(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Fixed_Point_Type
+Negate(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Fixed_Point_Type
+Absolute(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Fixed_Point_Type
+
+# signed/unsigned
 
 # add of two numbers in q form = q form
 # multiply two numbers in q form = 2*q form
