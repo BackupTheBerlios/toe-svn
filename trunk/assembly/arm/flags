@@ -1,0 +1,13 @@
+The allocation of the bits within the CPSR (and the SPSR registers to which
+it is saved) is: 
+  31 30 29 28  ---   7   6   -   4   3   2   1   0
+  N  Z  C  V         I   F       M4  M3  M2  M1  M0
+
+The flags mean: 
+  N  Negative        Set if result is negative
+  Z  Zero            Set if result is zero
+  C  Carry           Set if carry occurs
+  O  Overflow        Set if overflow occurs
+  I  IRQ             Interrupt disable
+  F  FIQ             Fast Interrupt disable
+  
