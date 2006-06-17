@@ -98,7 +98,7 @@ types:
 	TMemoryBlock = class:
 		Start: TPointer
 		Size: TSize
-		
+
 # ordinal type?
 # Ordinal types denote sets of values in which each value has a unique successor.
 

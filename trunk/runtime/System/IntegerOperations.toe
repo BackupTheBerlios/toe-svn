@@ -1,0 +1,10 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.System"
+
+Remainder(Integral_Type: Type): function(a: Integral_Type): Integral_Type
+Divide(Integral_Type: Type): function(a, b: Integral_Type): Integral_Type
+Multiply(Integral_Type: Type): function(a, b: Integral_Type): Integral_Type
+Add(Integral_Type: Type): function(a, b: Integral_Type): Integral_Type
+Subtract(Integral_Type: Type): function(a, b: Integral_Type): Integral_Type
+Negate(Integral_Type: Type): function(a: Integral_Type): Integral_Type
