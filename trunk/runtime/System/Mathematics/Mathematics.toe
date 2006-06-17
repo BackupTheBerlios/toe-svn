@@ -24,8 +24,8 @@ Arcus_Sinus: function(Value: TReal): TRadians inline = builtin
 Arcus_Cosinus: function(Value: TReal): TRadians inline = builtin
 Power: function(Base, Exponent: TReal): TReal inline = builtin
 Exponential = Power
-Square_Root: function(Value: TReal): TReal inline = builtin
-Root: function(Exponent, Value: TReal): TReal inline = builtin
+Square_Root_Positive: function(Value: TReal): TReal inline = builtin
+Root_Positive: function(Exponent, Value: TReal): TReal inline = builtin
 E_Logarithm: function(Value: TReal): TReal inline = builtin # e
 Decimal_Logarithm: function(Value: TReal): TReal inline = builtin # 10
 # binary logarithm
