@@ -15,6 +15,7 @@ e: TReal = 2.71828182845904523536 constant
 π: TReal = 3.141592653589793238462643383279 constant
 pi = π
 # one: TReal = 1.0 constant
+# zero: TReal = 0.0 constant
 
 # Planck's constant = 6.626068 × 10**(-34) m**2 kg / s
 
