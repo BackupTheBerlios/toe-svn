@@ -1,0 +1,12 @@
+#!/usr/bin/env toe-interpreter
+
+# TODO
+
+namespace "org.scratchpost.toe.System.Mathematics"
+using "org.scratchpost.toe.System"
+
+
+types:
+	TVector2D(Item_Type: Type) = (Item_Type, Item_Type)
+	TVector3D(Item_Type: Type) = (Item_Type, Item_Type, Item_Type)
+
