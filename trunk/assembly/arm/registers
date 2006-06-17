@@ -32,4 +32,23 @@ R13: stack free pointer (downwards) (per convention)
 R14: (current) return address
 R15 = PC
 
+
+APCS (ARM Procedure Call Standard):
+R0	a1	Working registers
+R1	a2	"
+R2	a3	"
+R3	a4	"
+R4	v1	Must be preserved
+R5	v2	"
+R6	v3	"
+R7	v4	"
+R8	v5	"
+R9	v6	"
+R10	sl	Stack Limit
+R11	fp	Frame Pointer
+R12	ip	 
+R13	sp	Stack Pointer
+R14	lr	Link Register
+R15	pc	Program Counter
+
 The ARM IEEE FP system has eight high precision FP registers (F0 to F7). 
