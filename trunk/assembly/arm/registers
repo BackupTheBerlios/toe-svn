@@ -1,0 +1,31 @@
+The ARM processor has twenty seven registers, some of which have conditions
+applied, so you only get to use sixteen at any one time... 
+Register 0 to register 7 are general purpose registers and can be used for
+ANY purpose.
+Unlike 80x86 processors which require certain registers to be used for stack
+access, or the 6502 which places the result of mathematical calculations in
+the Accumulator, the ARM processor is highly flexible in its register use. 
+
+Register 8 to register 12 are general purpose registers, but they have
+shadow registers which come into use when you switch to FIQ mode. 
+
+Register 13 is typically the OS stack pointer, but can be used as a general
+purpose register. This is an operating system issue, not a processor issue,
+so if you don't use the stack you can corrupt this freely within your own
+code as long as you restore it afterwards. Each of the processor modes
+shadow this register. 
+
+Register 14 is dedicated to holding the address of the return point to make
+writing subroutines easier. When you branch with link (BL) the return
+address is stored in R14. 
+Likewise when the program is first run, the exit address is stored in R14.
+All instances of R14 must be preserved in other registers (not really
+efficient) or in a stack. This register is shadowed across all of the
+processor modes. This register can be used as a general purpose register
+once the link address has been preserved. 
+
+Register 15 is the program counter. It holds the status of the processor as
+well as a twenty-six bit number which is the address of the program
+currently being used.
+
+The ARM IEEE FP system has eight high precision FP registers (F0 to F7). 
