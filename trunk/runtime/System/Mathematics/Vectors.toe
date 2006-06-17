@@ -10,13 +10,12 @@ types:
 	TVector2D(Item_Type: Type) = (Item_Type, Item_Type)
 	TVector3D(Item_Type: Type) = (Item_Type, Item_Type, Item_Type)
 
-Add(Item_Type: Type): function(a, b: TVector(Item_Type)): TVector(Item_Type)
-#Subtract(Item_Type: Type): function(a, b: TVector(Item_Type)): TVector(Item_Type)
-Negate(Item_Type: Type): function(a: TVector(Item_Type)): TVector(Item_Type)
-Dot_Product(Item_Type: Type): function(a, b: TVector(Item_Type)): Item_Type
-Cross_Product(Item_Type: Type): function(a, b: TVector(Item_Type)): TVector(Item_Type)
-Product(Item_Type: Type): function(a: TVector(Item_Type), b: Item_Type): TVector(Item_Type)
-Unit(Item_Type: Type): TVector(Item_Type)
-Length(Item_Type: Type): function(a: TVector(Item_Type)): Item_Type
-Normalize(Item_Type: Type): function(a: TVector(Item_Type)): TVector(Item_Type)
-
+Add(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
+Subtract(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
+Negate(Vector_Type: Type): function(a: Vector_Type): Vector_Type
+Dot_Product(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type.Item_Type
+Cross_Product(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
+Product(Vector_Type: Type): function(a: Vector_Type, b: Vector_Type.Item_Type): Vector_Type
+Length(Vector_Type: Type): function(a: Vector_Type): Vector_Type.Item_Type
+Normalize(Vector_Type: Type): function(a: Vector_Type): Vector_Type
+Unit(Vector_Type: Type): Vector_Type constant
