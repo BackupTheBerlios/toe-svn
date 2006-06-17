@@ -29,6 +29,7 @@ well as a twenty-six bit number which is the address of the program
 currently being used.
 
 R13: stack free pointer (downwards) (per convention)
+R14: (current) return address
 R15 = PC
 
 The ARM IEEE FP system has eight high precision FP registers (F0 to F7). 
