@@ -10,3 +10,12 @@ types:
 	TVector2D(Item_Type: Type) = (Item_Type, Item_Type)
 	TVector3D(Item_Type: Type) = (Item_Type, Item_Type, Item_Type)
 
+Add(Item_Type: Type): function(a, b: TVector(Item_Type)): TVector(Item_Type)
+Subtract(Item_Type: Type): function(a, b: TVector(Item_Type)): TVector(Item_Type)
+Dot_Product(Item_Type: Type): function(a, b: TVector(Item_Type)): Item_Type
+Cross_Product(Item_Type: Type): function(a, b: TVector(Item_Type)): TVector(Item_Type)
+Product(Item_Type: Type): function(a: TVector(Item_Type), b: Item_Type): TVector(Item_Type)
+Unit(Item_Type: Type): TVector(Item_Type)
+Length(Item_Type: Type): function(a: TVector(Item_Type)): Item_Type
+Normalize(Item_Type: Type): function(a: TVector(Item_Type)): TVector(Item_Type)
+
