@@ -58,6 +58,14 @@ main
         MOV     ip, sp
         STMFD   sp!, {fp,ip,lr,pc}
         SUB     fp, ip, #4
-        LDMEA   fp, {fp,sp,pc}
+
+...
+        (end: LDMEA   fp, {fp,sp,pc})
+
+Your next task is to check the stack space. If you don't need much space
+(less than 256 bytes) then you can use: 
+        CMPS    sp, sl
+        BLLT    |__rt_stkovf_split_small|
+	SUB	sp, sp, #<size of local variables>
 
 The ARM IEEE FP system has eight high precision FP registers (F0 to F7). 
