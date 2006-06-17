@@ -26,3 +26,10 @@
 .four
   ; Not a BL, so R14 unchanged
   LDMFD R13!, {PC} ; returns from .three because R14 not changed.
+
+The caveat is that the registers are saved in ascending order... 
+  STMFD R13!, {R7, R0, R2, R1, R9, R3, R14}
+will save R0, R1, R2, R3, R7, R9, and R14 (in that order). So code like: 
+  STMFD R13!, {R0, R1}
+  LDMFD R13!, {R1, R0}
+to swap two registers will not work.
