@@ -1,0 +1,62 @@
+EQ : Equal 
+If the Z flag is set after a comparison. 
+
+NE : Not Equal 
+If the Z flag is clear after a comparison. 
+
+VS : Overflow Set 
+If the V flag is set after an arithmetical operation, the result of which
+will not fit into a 32bit destination register. 
+
+VC : Overflow Clear 
+If the V flag is clear, the reverse of VS. 
+
+HI : Higher Than (unsigned) 
+If after a comparison the C flag is set AND the Z flag is clear. 
+
+LS : Lower Than or Same (unsigned) 
+If after a comparison the C flag is clear OR the Z flag is set. 
+
+PL : Plus 
+If the N flag is clear after an arithmetical operation. For the purposes of
+defining 'plus', zero is positive because it isn't negative... 
+
+MI : Minus 
+If the N flag is set after an arithmetical operation. 
+
+CS : Carry Set 
+Set if the C flag is set after an arithmetical operation OR a shift
+operation, the result of which cannot be represented in 32bits. You can
+think of the C flag as the 33rd bit of the result. 
+
+CC : Carry Clear 
+The reverse of CS. 
+
+GE : Greater Than or Equal (signed) 
+If after a comparison...
+the N flag is set AND the V flag is set
+or...
+the N flag is clear AND the V flag is clear. 
+
+GT : Greater Than (signed) 
+If after a comparison...
+the N flag is set AND the V flag is set
+or...
+the N flag is clear AND the V flag is clear
+and...
+the Z flag is clear. 
+
+LE : Less Than or Equal To (signed) 
+If after a comparison...
+the N flag is set AND the V flag is clear
+or...
+the N flag is clear AND the V flag is set
+and...
+the Z flag is set. 
+
+LT : Less Than (signed) 
+If after a comparison...
+the N flag is set AND the V flag is clear
+or...
+the N flag is clear AND the V flag is set. 
+
