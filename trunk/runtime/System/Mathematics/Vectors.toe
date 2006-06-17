@@ -2,13 +2,14 @@
 
 # TODO
 
-namespace "org.scratchpost.toe.System.Mathematics"
+namespace "org.scratchpost.toe.System.Mathematics.Vectors"
 using "org.scratchpost.toe.System"
-
 
 types:
 	TVector2D(Item_Type: Type) = (Item_Type, Item_Type)
 	TVector3D(Item_Type: Type) = (Item_Type, Item_Type, Item_Type)
+	TRealVector2D = TVector2D(TReal)
+	TRealVector3D = TVector2D(TReal)
 
 Add(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
 Subtract(Vector_Type: Type): function(a, b: Vector_Type): Vector_Type
@@ -19,3 +20,4 @@ Product(Vector_Type: Type): function(a: Vector_Type, b: Vector_Type.Item_Type): 
 Length(Vector_Type: Type): function(a: Vector_Type): Vector_Type.Item_Type
 Normalize(Vector_Type: Type): function(a: Vector_Type): Vector_Type
 Unit(Vector_Type: Type): Vector_Type constant
+
