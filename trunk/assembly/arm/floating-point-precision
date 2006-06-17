@@ -1,0 +1,18 @@
+
+Precision and rounding
+Precision is: 
+S  - single 
+D  - double 
+E  - double extended 
+P  - packed decimal 
+EP - extended packed decimal (if enabled) 
+A precision must be specified. 
+
+ 
+
+Rounding modes are: 
+   - nearest (no letter required) 
+P  - plus infinity 
+M  - minus infinity 
+Z  - zero 
+If no rounding mode is specified, 'nearest' will be assumed.

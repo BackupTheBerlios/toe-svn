@@ -1,0 +1,91 @@
+There is also an FPSR (floating point status register) which, similar to the
+ARM's own PSR, holds the status information that an application might
+require. Each of the flags available has a 'trap' which allows the
+application to enable or disable traps associated with the given error.
+
+SO Select Synchronous Operation of the FPU 
+When set, all FP operations are executed synchronously and the ARM will be
+forced to busy-wait until the FPU is done.
+There is a trade off. With synchronous operation, exceptions will be raised
+at the expected time and place, and the addresses of such exceptions will be
+correct. However, with async. operation, the ARM can actually get on and do
+stuff while the FPU does it's own stuff (provided, of course, the ARM isn't
+waiting on an FP result).
+Obviously, this bit has no meaning on the software FP systems!
+
+NE NaN Exception 
+The PRM says: "If this bit is set, then an attempt to store a signalling NaN
+that involves a change of format will cause an exception (for full IEEE
+compatibility).
+I have no idea what that actually means (to me, a 'signalling NaN' brings to
+mind an old lady with big glasses waving a red lantern out the back of a
+steam train...).
+The alternative? If this bit is clear, then no exception will occur - for
+compatibility with 'old FPE'. 
+
+Exception flags, the lower byte of the FPSR: 
+7  6   5   4      3      2      1      0
+Reserved   INX    UFL    OFL    DVZ    IVO
+
+IVO InValid Operation 
+The IVO flag is set when an operand is invalid for the operation to be
+performed. Invalid operations are: 
+Any operation on a trapping NaN (not-a-number) 
+Magnitude subtraction of infinities, eg + + - 
+Multiplication of 0 by 0 
+Division of 0/0 or x/0 
+x REM y where x = 8 or y = 0
+(REM is the `remainder after floating point division' operator.) 
+Square root of any number < 0 (but (-0) = -0) 
+Conversion to integer or decimal when overflow, or a NaN operand make it
+impossible
+If overflow makes a conversion to integer impossible, then the largest
+positive or negative integer is produced (depending on the sign of the
+operand) and IVO is signalled 
+Comparison with exceptions of Unordered operands 
+ACS, ASN, SIN, COS, TAN, LOG, LGN, POW, or RPW with invalid/incorrect
+arguments.
+
+DVZ DiVision by Zero 
+The DVZ flag is set if the divisor is zero and the dividend a finite,
+non-zero number. A correctly signed infinity is returned if the trap is
+disabled. The flag is also set for LOG(0) and for LGN(0). Negative infinity
+is returned if the trap is disabled.
+
+OFL OverFLow 
+The OFL flag is set whenever the destination format's largest number is
+exceeded in magnitude by the rounded result would have been were the
+exponent range unbounded. As overflow is detected after rounding a result,
+whether overflow occurs or not after some operations depends the rounding
+mode.
+If the trap is disabled either a correctly signed infinity is returned, or
+the format's largest finite number. This depends on the rounding mode and
+floating point system used.
+
+UFL UnderFLow
+Two correlated events contribute to underflow: 
+Tininess - the creation of a tiny non-zero result smaller in magnitude than
+the format's smallest normalised number. 
+Loss of accuracy - a loss of accuracy due to denormalisation that may be
+greater than would be caused by rounding alone. 
+The UFL flag is set in different ways depending on the value of the UFL trap
+enable bit. If the trap is enabled, then the UFL flag is set when tininess
+is detected regardless of loss of accuracy. If the trap is disabled, then
+the UFL flag is set when both tininess and loss of accuracy are detected (in
+which case the INX flag is also set); otherwise a correctly signed zero is
+returned.
+As underflow is detected after rounding a result, whether underflow occurs
+or not after some operations depends on the rounding mode. 
+ 
+
+INX INeXact 
+The INX flag is set if the rounded result of an operation is not exact
+(different from the value computable with infinite precision), or overflow
+has occurred while the OFL trap was disabled, or underflow has occurred
+while the UFL trap was disabled. OFL or UFL traps take precedence over INX.
+The INX flag is also set when computing SIN or COS, with the exceptions of
+SIN(0) and COS(1).
+The old FPE and the FPPC system may differ in their handling of the INX
+flag. Because of this inconsistency, it is recommended that you do not
+enable the INX trap.
+
