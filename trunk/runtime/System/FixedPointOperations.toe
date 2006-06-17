@@ -1,0 +1,20 @@
+#!/usr/bin/env toe-interpreter
+
+# TODO
+
+namespace "org.scratchpost.toe.System"
+
+#Remainder(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Integral_Type
+#Divide(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
+#Multiply(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
+#Add(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
+#Subtract(Fixed_Point_Type: Type): function(a, b: Fixed_Point_Type): Integral_Type
+#Negate(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Integral_Type
+#Absolute(Fixed_Point_Type: Type): function(a: Fixed_Point_Type): Integral_Type
+
+# add of two numbers in q form = q form
+# multiply two numbers in q form = 2*q form
+# square root of two numbers in q form = q/2 form
+# convert by shifting
+# choose q for the largest number
+# overflows are evil
