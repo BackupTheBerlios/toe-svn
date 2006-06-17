@@ -11,8 +11,9 @@ types:
 		#Minimum = 
 		# Period = pi * 2
 
-e: TReal = 2.71828183
-pi: TReal = 3.14159265
+e: TReal = 2.71828183 constant
+pi: TReal = 3.14159265 constant
+# one: TReal = 1.0 constant
 
 # Planck's constant = 6.626068 × 10**(-34) m**2 kg / s
 

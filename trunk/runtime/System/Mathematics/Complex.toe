@@ -1,0 +1,23 @@
+#!/usr/bin/env toe-interpreter
+
+# TODO
+
+namespace "org.scratchpost.toe.System.Mathematics"
+using namespace "org.scratchpost.toe.System.Mathematics.Vectors"
+
+types:
+	TComplex(Item_Type: Type) = TVector2D(Item_Type) # real, complex
+
+# Dot product doesn't really make sense, so is it really a vector?
+
+# c = a * i + b
+# i * i = -1
+	
+# Imaginary_1(Item_Type: Type): TComplex(Item_Type) = (0, 1) constant
+
+# polar coordinates (r. q) where q is an angle
+# c = r * (cosq + isinq ) = r * e ** (i * q)
+
+Real(Complex_Type: Type): function(a: Complex_Type): Complex_Type.Item_Type inline
+Imaginary(Complex_Type: Type): function(a: Complex_Type): Complex_Type.Item_Type inline
+
