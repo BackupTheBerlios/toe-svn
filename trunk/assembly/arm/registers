@@ -51,4 +51,13 @@ R13	sp	Stack Pointer
 R14	lr	Link Register
 R15	pc	Program Counter
 
+fp is either zero, or it points to the most recent part of the backtrace
+structure.
+
+main
+        MOV     ip, sp
+        STMFD   sp!, {fp,ip,lr,pc}
+        SUB     fp, ip, #4
+        LDMEA   fp, {fp,sp,pc}
+
 The ARM IEEE FP system has eight high precision FP registers (F0 to F7). 
