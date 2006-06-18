@@ -1,0 +1,12 @@
+#!/usr/bin/env toe-interpreter
+
+# TODO
+
+# type
+# server
+# async
+# result: list of entries (if type = "A": ips)
+
+namespace "org.scratchpost.toe.Network.Protocol.NameDomain"
+
+types:
