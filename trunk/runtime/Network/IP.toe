@@ -35,3 +35,14 @@ types:
 	# TTCPPortId = TPortId
 	# TUDPPortId = TPortId
 
+	TAddress = class:
+		virtual As_String: property(TString, [read])
+
+	TIPv4Address = class:
+		inherits = TAddress
+
+		Value: property((TByte, TByte, TByte, TByte))
+
+	TIPv6Address = class:
+		inherits = TAddress
+
