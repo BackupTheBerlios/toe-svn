@@ -1,0 +1,35 @@
+#!/usr/bin/env toe-interpreter
+
+namespace "org.scratchpost.toe.Network"
+
+types:
+	TPortId = enumeration of TCardinal(16):
+		inherits = TCardinal(16)
+
+		FTP = 21
+		SSH = 22
+		Telnet = 23
+		SMTP = 25
+		DNS = 53
+		tFTP = 69
+		Gopher = 70
+		WWW = 80
+		Kerberos_5 = 88
+		POP3 = 110
+		Ident = 113
+		NNTP = 119
+		NTP = 123
+		SNMP = 161
+		IRC = 194
+		LDAP = 389
+		HTTPS = 443
+		IPP = 631
+		NNTPS = 563
+		LDAPS = 636
+		Rsync = 873
+		FTPS = 990
+		TelnetS = 992
+		IRCS = 994
+		POP3S = 995
+
+
