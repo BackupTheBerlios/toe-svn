@@ -1,5 +1,7 @@
 #!/usr/bin/env toe-interpreter
 
+# RFC2822
+
 namespace "org.scratchpost.toe.Network.Format.Mail"
 
 types:
