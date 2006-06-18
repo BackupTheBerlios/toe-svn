@@ -2,4 +2,5 @@
 uuencode
 hex digest
 gpg signing/verifying
-
+quoted printable
+base64
