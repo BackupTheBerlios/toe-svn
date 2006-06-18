@@ -32,4 +32,6 @@ types:
 		IRCS = 994
 		POP3S = 995
 
+	# TTCPPortId = TPortId
+	# TUDPPortId = TPortId
 
