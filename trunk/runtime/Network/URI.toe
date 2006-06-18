@@ -5,7 +5,7 @@ namespace "org.scratchpost.toe.Network.URI"
 # http://www.gbiv.com/protocols/uri/rfc/rfc3986.html
 
 types:
-	TURI: TASCIIString(2,083)
+	TURI: TASCIIString(2083)
 	# ok, so technically the maximum length would be about
 	# 256+10+5+4096*3 = 12559 characters, but if you used 
 	# a string that long, I'd question your sanity.
