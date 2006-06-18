@@ -84,8 +84,6 @@ types:
 types:
 	TComparer: TInteger
 
-	# TODO streams
-		
 	TTimeout = enumeration of TFloatingPoint(): # in seconds
 		inherits = TFloatingPoint()
 		Minimum = 0.0

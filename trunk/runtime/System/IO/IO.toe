@@ -11,6 +11,9 @@ namespace "org.scratchpost.toe.System.IO"
 # seekable or not
 # serialization
 # sync/async
+# null stream (seek pointer update only)
+# tee stream
+# two phase commit?
 
 types:
 	IBuffer = interface:
