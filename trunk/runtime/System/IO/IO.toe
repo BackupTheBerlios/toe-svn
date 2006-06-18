@@ -14,6 +14,7 @@ namespace "org.scratchpost.toe.System.IO"
 # null stream (seek pointer update only)
 # tee stream
 # two phase commit?
+# buffering (Line Buffering, No Buffering, Block Buffering)
 
 types:
 	IBuffer = interface:
