@@ -65,7 +65,7 @@ types:
 Time: TMicroTime = property(TMicroTime)
 
 # TTimeZone unsupported by kernel
-Get_Time_Of_Day!: function(): (TMicroTime, IGNORE:TTimeZone, ??) = System_Call
+Get_Time_Of_Day: function(): (TMicroTime, IGNORE:TTimeZone, ??) = System_Call
 Set_Time_Of_Day!: function(Time: TMicroTime, nil): ?? = System_Call
 
 Start_Interval_Timer!: function(Kind: TIntervalTimerKind, 
