@@ -1,0 +1,12 @@
+#!/usr/bin/env toe-interpreter
+
+# TODO
+
+namespace "org.scratchpost.toe.System"
+
+types:
+
+Format_Date: function(Source: TLocalTime??, Format: TString): TString
+Parse_Date: function(Source: TString, Format: TString): TLocalTime??, ??
+Format: function(Format: TString, ...): TString
+
