@@ -13,6 +13,7 @@ TODO: size to allocate in bits?
 
 """
 
+import sys
 import exceptions
 import stackallocator
 import cpuallocator
@@ -54,6 +55,8 @@ class TCustomRegisterAllocator(object):
 				for i in range(len(self._stack_offsets)):
 					if self._stack_offsets[i][0] > offset:
 						break
+				else:
+					i = len(self._stack_offsets)
 
 				register = TStackRegister(offset)
 				self._stack_offsets.insert(i, (offset, register))
