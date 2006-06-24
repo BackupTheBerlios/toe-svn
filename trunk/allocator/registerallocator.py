@@ -66,22 +66,38 @@ class TCustomRegisterAllocator(object):
 	# also takes care of culling the stack, if possible (and only then).
 	def _unstack(self, offset):
 		index = offset // self._cpu.__class__.register_size
-		print >>sys.stderr, len(self._stack_offsets), index
 		assert(len(self._stack_offsets) > index)
 		self._stack_offsets[index] = None
+		print >>sys.stderr, "unstacko", self._stack_offsets
 
+		# find leftermost 'None' item (cull from there later)
 		i = index
+		while i >= 0:
+			if self._stack_offsets[i] != None:
+				break
+
+			i = i - 1
+
+		i = i + 1
+
+		index = i
+
+		# now check if all the tail is 'None'
 		while i < len(self._stack_offsets):
-			if self._stack_offsets[index] != None:
+			if self._stack_offsets[i] != None:
 				# there are some other registers on top of the stack, can't compact.
+				#print >>sys.stderr, "bam"
 				return
 
+			#print >>sys.stderr, "item...."
 			i = i + 1
 
+		# get rid
 		count = len(self._stack_offsets) - index
-		print >>sys.stderr, "unstack", count
-		self._stack_allocator.pop(count)
-		self._stack_offsets = self._stack_offsets[:-count]
+		if count > 0:
+			#print >>sys.stderr, "unstack", count
+			self._stack_allocator.pop(count)
+			self._stack_offsets = self._stack_offsets[:-count]
 
 	def clobber(self, id):
 		if id >= 128:
