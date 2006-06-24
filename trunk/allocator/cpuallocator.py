@@ -1,20 +1,6 @@
-#!/usr/bin/env python
-
-"""
-
-This class emulates infinite registers by resorting to the stack, if neccessary.
-
-Note that any given architecture has multiple sets of registers, like 
-normal registers, floating-point registers, mmx registers, ...
-
-Some, by using one set, really clobber another set in the process. I ignore that so far.
-
-TODO: size to allocate in bits?
-
-"""
+#!/usr/bin env
 
 import exceptions
-import stackallocator
 
 class TCustomRegisterId(int):
 	Any = -1
@@ -86,15 +72,12 @@ class TStackRegister(TRegister):
 class ERegisterUnavailable(exceptions.Exception):
 	pass
 
-class TCustomRegisterAllocator(object):
-	stack_allocator_class = None
-
+class TCustomCPU(object):
 	def __init__(self):
 		self._registers = {}
-		self._stack_allocator = self.__class__.stack_allocator_class()
 
-	# returns the allocated register or throws exception.
-	def allocate(self, guest, preferred_id = TRegisterId.Any, is_stack_ok = True):
+	# returns the allocated register or returns None
+	def allocate(self, guest, preferred_id = TRegisterId.Any):
 		if preferred_id != TRegisterId.Any and self._registers[preferred_id].guest == None:
 			self._registers[preferred_id] = guest
 			return self._registers[preferred_id]
@@ -104,11 +87,7 @@ class TCustomRegisterAllocator(object):
 				register.guest = guest
 				return register
 
-		if is_stack_ok and self._stack_allocator != None:
-			address = self._stack_allocator.push()
-			# TODO
-			
-		raise ERegisterUnavailable("E2006062417: no register available")
+		return None
 
 	def clobber(self, id):
 		self._registers[id].guest = None
@@ -128,27 +107,24 @@ class TCustomRegisterAllocator(object):
 		assert(TRegisterId(id) not in self._registers)
 		self._registers[TRegisterId(id)] = register
 
-class TX86RegisterAllocator(TCustomRegisterAllocator):
+class TX86CPU(TCustomCPU):
 	"""
-	>>> registers = TX86RegisterAllocator()
-	>>> registers.print_state()
+	>>> cpu = TX86CPU()
+	>>> cpu.print_state()
 	"""
-	stack_allocator_class = stackallocator.TX86StackAllocator
 
 	def __init__(self):
-		TCustomRegisterAllocator.__init__(self)
+		TCustomCPU.__init__(self)
 
 		for name in dir(TX86RegisterId):
 			if not name.startswith("_"):
 				self._create_register(TX86RegisterId(getattr(TX86RegisterId, name)))
 
-class TX87RegisterAllocator(TCustomRegisterAllocator):
-	stack_allocator_class = stackallocator.TX87StackAllocator
-
+class TX87CPU(TCustomCPU):
 	def __init__(self):
-		TCustomRegisterAllocator.__init__(self)
+		TCustomCPU.__init__(self)
 
-TRegisterAllocator = TX86RegisterAllocator
+TCPU = TX86CPU
 
 def _test():
 	import doctest
