@@ -66,11 +66,8 @@ class TMachineRegister(TRegister):
 
 	machine_register_id = property(_get_machine_register_id)
 
-class TStackRegister(TRegister):
-	pass
-
-class ERegisterUnavailable(exceptions.Exception):
-	pass
+#class TStackRegister(TRegister):
+#	pass
 
 class TCustomCPU(object):
 	def __init__(self):
@@ -111,14 +108,22 @@ class TX86CPU(TCustomCPU):
 	"""
 	>>> cpu = TX86CPU()
 	>>> cpu.print_state()
+	0: None
+	1: None
+	2: None
+	3: None
+	4: None
+	5: None
+	6: None
+	7: None
+	8: None
 	"""
-
 	def __init__(self):
 		TCustomCPU.__init__(self)
 
 		for name in dir(TX86RegisterId):
-			if not name.startswith("_"):
-				self._create_register(TX86RegisterId(getattr(TX86RegisterId, name)))
+			if not name.startswith("_") and name != "Any":
+				self._create_register(TMachineRegister(getattr(TX86RegisterId, name)))
 
 class TX87CPU(TCustomCPU):
 	def __init__(self):
