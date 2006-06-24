@@ -31,7 +31,7 @@ StopIteration
   generator_stream.write("""
 [[:whitespace:]]	IGNORE
 'NAMESPACE'[[:whitespace:]]*
-[a-zA-Z_][a-zA-Z0-9_]*[?!]*	ID
+[a-zA-Z_][a-zA-Z0-9_]*[?!]*[[:whitespace:]]*	ID
 '.'	DOT
 """)
   generator_stream.seek(0)
