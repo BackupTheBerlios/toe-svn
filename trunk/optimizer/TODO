@@ -1,0 +1,5 @@
+
+instruction durations:
+	arm:
+		LDM: <= 20 cycles
+
