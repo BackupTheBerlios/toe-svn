@@ -68,7 +68,7 @@ class TCustomRegisterAllocator(object):
 		index = offset // self._cpu.__class__.register_size
 		assert(len(self._stack_offsets) > index)
 		self._stack_offsets[index] = None
-		print >>sys.stderr, "unstacko", self._stack_offsets
+		#print >>sys.stderr, "unstacko", self._stack_offsets
 
 		# find leftermost 'None' item (cull from there later)
 		i = index
