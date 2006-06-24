@@ -41,7 +41,7 @@ class TCustomRegisterAllocator(object):
 	def __init__(self, cpu):
 		self._cpu = cpu
 		self._stack_allocator = self.__class__.stack_allocator_class()
-		self._stack_offsets = [] # keep sorted.
+		self._stack_offsets = [] # [keep sorted.] index = offset // self._cpu.register_size, value = register
 
 	# returns the allocated register or throws exception.
 	def allocate(self, guest, preferred_id = TRegisterId.Any, is_stack_ok = True):
@@ -49,38 +49,59 @@ class TCustomRegisterAllocator(object):
 		if register == None:
 			if is_stack_ok and self._stack_allocator != None:
 				offset = self._stack_allocator.push()
-				# TODO
+				index = offset // self._cpu.__class__.register_size
 
-				i = 0
-				for i in range(len(self._stack_offsets)):
-					if self._stack_offsets[i][0] > offset:
-						break
-				else:
-					i = len(self._stack_offsets)
+				while len(self._stack_offsets) <= index:
+					self._stack_offsets.append(None)
 
 				register = TStackRegister(offset)
-				self._stack_offsets.insert(i, (offset, register))
+				self._stack_offsets[index] = register
 
-				t = self._stack_offsets[:]
-				t.sort()
-				assert(t == self._stack_offsets)
 				return register
 		else:
 			return register
 
 		raise ERegisterUnavailable("E2006062417: no register available")
 
+	# also takes care of culling the stack, if possible (and only then).
+	def _unstack(self, offset):
+		index = offset // self._cpu.__class__.register_size
+		print >>sys.stderr, len(self._stack_offsets), index
+		assert(len(self._stack_offsets) > index)
+		self._stack_offsets[index] = None
+
+		i = index
+		while i < len(self._stack_offsets):
+			if self._stack_offsets[index] != None:
+				# there are some other registers on top of the stack, can't compact.
+				return
+
+			i = i + 1
+
+		count = len(self._stack_offsets) - index
+		print >>sys.stderr, "unstack", count
+		self._stack_allocator.pop(count)
+		self._stack_offsets = self._stack_offsets[:-count]
+
 	def clobber(self, id):
-		self._cpu.clobber(id)
+		if id >= 128:
+			self._unstack(id - 128)
+		else:
+			self._cpu.clobber(id)
 		
 	def free(self, id):
-		self._cpu.free(id)
+		if id >= 128:
+			self._unstack(id - 128)
+		else:
+			self._cpu.free(id)
 
 	def get_register(self, id):
 		return self._cpu.get_register(id)
 
 	def print_state(self):
 		self._cpu.print_state()
+
+	stack_allocator = property(lambda self: self._stack_allocator)
 
 class TX86RegisterAllocator(TCustomRegisterAllocator):
 	"""
@@ -171,12 +192,29 @@ class TARMRegisterAllocator(TCustomRegisterAllocator):
 	r8
 	>>> registers.allocate(204)
 	r9
-	>>> registers.allocate(300)
+	>>> print registers.stack_allocator.position
+	0
+	>>> r128 = registers.allocate(300)
+	>>> print r128
 	in stack frame at 0
-	>>> registers.allocate(400)
+	>>> r129 = registers.allocate(400)
+	>>> print r129
 	in stack frame at 4
-	>>> registers.allocate(4)
+	>>> print registers.stack_allocator.position
+	8
+	>>> r130 = registers.allocate(4)
+	>>> print r130
 	in stack frame at 8
+	>>> registers.free(r130.id)
+	>>> print registers.stack_allocator.position
+	8
+	>>> r131 = registers.allocate(400)
+	>>> print r131
+	in stack frame at 8
+	>>> registers.free(r129.id)
+	>>> registers.free(r131.id)
+	>>> print registers.stack_allocator.position
+	4
 	"""
 	stack_allocator_class = stackallocator.TX86StackAllocator
 
