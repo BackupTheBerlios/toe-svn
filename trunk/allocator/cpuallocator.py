@@ -90,6 +90,7 @@ establishment = TEstablishment()
 class TCustomCPU(object):
 	id_class = None
 	register_size = None # byte
+	calling_convention_strings = {}
 
 	def __init__(self):
 		self._registers = {}
@@ -99,6 +100,16 @@ class TCustomCPU(object):
 			if not name.startswith("_") and name != "Any":
 				id_value = id_class(getattr(id_class, name))
 				self._create_register(TMachineRegister(id_value))
+
+	def get_calling_convention(self, name):
+		register_ids, stack_direction, cleanup_responsibility = self.__class__.calling_convention_strings[name]
+
+		calling_registers = []
+
+		for register_id in register_ids:
+			calling_registers.append(self._registers[register_id])
+
+		return calling_registers, stack_direction, cleanup_responsibility
 
 	# returns the allocated register or returns None
 	def allocate(self, guest, preferred_id = TCustomRegisterId.Any):
@@ -148,6 +159,13 @@ class TX86CPU(TCustomCPU):
 
 	id_class = TX86RegisterId
 	register_size = 4 # byte
+	calling_convention_strings = {
+		"linux-system-call": ([TX86RegisterId.eax, TX86RegisterId.ebx, TX86RegisterId.ecx, 
+		                       TX86RegisterId.edx, TX86RegisterId.esi, TX86RegisterId.edi],
+		                      "no-stack", "no-cleanup"),
+		"c": ([], "reverse-stack", "caller-cleanup"),
+		"pascal": ([], "normal-stack", "callee-cleanup"),
+	}
 
 	def __init__(self):
 		TCustomCPU.__init__(self)
@@ -186,6 +204,13 @@ class TARMCPU(TCustomCPU):
 
 	id_class = TARMRegisterId
 	register_size = 4 # byte
+	calling_convention_strings = {
+		"linux-system-call": ([TARMRegisterId.r0, TARMRegisterId.r1, TARMRegisterId.r2, 
+		                      TARMRegisterId.r3, TARMRegisterId.r4, TARMRegisterId.r5],
+		                      "no-stack", "no-cleanup"),
+		"c": ([], "reverse-stack", "caller-cleanup"),
+		"pascal": ([], "stack", "callee-cleanup"),
+	}
 
 	def __init__(self):
 		TCustomCPU.__init__(self)
