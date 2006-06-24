@@ -479,6 +479,8 @@ class TLexerGenerator(object):
                 while c <= chr(endrange):
                   self._matchset1.add(c, self._case_sensitive)
                   c = chr(ord(c) + 1)
+
+                startrange = -1
               else: # normal char to add to range
                 if c == ']':
                   raise ELexerLoadError(self.format_loader_error('probably invalid "]"'))
@@ -502,8 +504,13 @@ class TLexerGenerator(object):
                     ci = ci + 11 - 1
                     
                     self._matchset1.add("\n", False)
+                  elif line[ci:ci + 8] == "[:utf8:]":
+                    ci = ci + 8 - 1
+
+                    for aai in range(128, 256):
+                      self._matchset1.add(chr(aai), False)
                   else:
-                    raise ELexerLoadError(self.format_loader_error('invalid special form, expected "[:whitespace:]" or "[:newline:]"'))
+                    raise ELexerLoadError(self.format_loader_error('invalid special form, expected "[:whitespace:]", "[:newline:]" or "[:utf8:]"'))
                 else:
                   self._matchset1.add(c, self._case_sensitive)
             
@@ -515,7 +522,7 @@ class TLexerGenerator(object):
             
             if c == "]":
               break
-              
+
           ci = ci + 1
           
           # assert that at least one char was matched by rule
