@@ -89,6 +89,7 @@ establishment = TEstablishment()
 
 class TCustomCPU(object):
 	id_class = None
+	register_size = None # byte
 
 	def __init__(self):
 		self._registers = {}
@@ -146,6 +147,7 @@ class TX86CPU(TCustomCPU):
 	"""
 
 	id_class = TX86RegisterId
+	register_size = 4 # byte
 
 	def __init__(self):
 		TCustomCPU.__init__(self)
@@ -183,6 +185,7 @@ class TARMCPU(TCustomCPU):
 	"""
 
 	id_class = TARMRegisterId
+	register_size = 4 # byte
 
 	def __init__(self):
 		TCustomCPU.__init__(self)
@@ -194,7 +197,6 @@ class TARMCPU(TCustomCPU):
 		assert(self.allocate(establishment, TARMRegisterId.I_Pointer) != None)
 		assert(self.allocate(establishment, TARMRegisterId.Frame_Pointer) != None)
 		assert(self.allocate(establishment, TARMRegisterId.Stack_Limit) != None)
-
 
 TCPU = TX86CPU
 
