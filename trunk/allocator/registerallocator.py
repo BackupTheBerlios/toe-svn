@@ -19,7 +19,11 @@ import cpuallocator
 from cpuallocator import TRegisterId
 
 class TStackRegister(cpuallocator.TRegister):
-	pass
+	def __init__(self, offset):
+		cpuallocator.TRegister.__init__(self)
+		self._offset = offset
+
+	offset = property(lambda self: self._offset)
 
 class ERegisterUnavailable(exceptions.Exception):
 	pass
@@ -36,7 +40,7 @@ class TCustomRegisterAllocator(object):
 		register = self._cpu.allocate(guest, preferred_id)
 		if register == None:
 			if is_stack_ok and self._stack_allocator != None:
-				address = self._stack_allocator.push()
+				offset = self._stack_allocator.push()
 				# TODO
 			
 		raise ERegisterUnavailable("E2006062417: no register available")
@@ -73,6 +77,10 @@ class TX86RegisterAllocator(TCustomRegisterAllocator):
 	def __init__(self, cpu):
 		TCustomRegisterAllocator.__init__(self, cpu)
 
+"""
+this class has a kind of funny design. It has 0 (yes, zero) registers and resorts 
+to the stack for everything.
+"""
 class TX87RegisterAllocator(TCustomRegisterAllocator):
 	stack_allocator_class = stackallocator.TX87StackAllocator
 
