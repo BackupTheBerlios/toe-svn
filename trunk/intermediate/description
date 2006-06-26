@@ -1,0 +1,22 @@
+
+<source> = constant or variable reference
+
+assign <source>, <destination>
+add <source1>, <source2>, <destination>
+subtract <source1>, <source2>, <destination>
+multiply <source1>, <source2>, <destination>
+compare <source>, <destination>
+branch <condition>, <label>
+call <label>
+return
+push <source|nil>
+pop <destination|nil>
+shift <relative>, <destination> # relative: >0: to the right
+system <argument1>[, <argument2>][, ...]
+
+(typed)
+(prefixed conditions possible?)
+
+
+
+
