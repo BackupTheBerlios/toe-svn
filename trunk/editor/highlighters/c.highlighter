@@ -1,0 +1,66 @@
+
+# C
+'if'[[:whitespace:][:newline:]]*
+'else'[[:whitespace:][:newline:]]*
+'for'[[:whitespace:][:newline:]]*
+'while'[[:whitespace:][:newline:]]*
+'do'[[:whitespace:][:newline:]]*
+'void'[[:whitespace:][:newline:]]*
+'int'[[:whitespace:][:newline:]]*
+'long'[[:whitespace:][:newline:]]*
+'unsigned'[[:whitespace:][:newline:]]*
+'signed'[[:whitespace:][:newline:]]*
+'size_t'[[:whitespace:][:newline:]]*
+'char'[[:whitespace:][:newline:]]*
+'switch'[[:whitespace:][:newline:]]*
+'case'[[:whitespace:][:newline:]]*
+'default'[[:whitespace:][:newline:]]*
+'goto'[[:whitespace:][:newline:]]*
+'float'[[:whitespace:][:newline:]]*
+'double'[[:whitespace:][:newline:]]*
+'complex'[[:whitespace:][:newline:]]*
+'static'[[:whitespace:][:newline:]]*
+'struct'[[:whitespace:][:newline:]]*
+'typedef'[[:whitespace:][:newline:]]*
+'enum'[[:whitespace:][:newline:]]*
+'return'[[:whitespace:][:newline:]]*
+'extern'[[:whitespace:][:newline:]]*
+
+# C++
+'class'[[:whitespace:][:newline:]]*
+'virtual'[[:whitespace:][:newline:]]*
+'namespace'[[:whitespace:][:newline:]]*
+'using'[[:whitespace:][:newline:]]*
+'private'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
+'public'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
+'protected'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
+'try'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
+'catch'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
+
+# CPP
+
+'#define'[[:whitespace:]]*[^[:newline:]]*
+'#undef'[[:whitespace:]]*[^[:newline:]]*
+'#include'[[:whitespace:]]*[^[:newline:]]*
+'#ifdef'[[:whitespace:]]*[^[:newline:]]*
+'#ifndef'[[:whitespace:]]*[^[:newline:]]*
+'#error'[[:whitespace:]]*[^[:newline:]]*
+'#warning'[[:whitespace:]]*[^[:newline:]]*
+
+# operators (C, C++)
+'sizeof'[[:whitespace:]]*[^[:newline:]]*
+'new'[[:whitespace:]]*[^[:newline:]]*
+'delete'[[:whitespace:]]*[^[:newline:]]*
+
+# C++ STL
+'string'[[:whitespace:]]*[^[:newline:]]*
+'map'[[:whitespace:]]*[^[:newline:]]*
+'vector'[[:whitespace:]]*[^[:newline:]]*
+'list'[[:whitespace:]]*[^[:newline:]]*
+
+'"'[^"]*'"'                                     LITERAL
+
+'::'[[:whitespace:][:newline:]]*
+'.'[[:whitespace:][:newline:]]*
+[[:whitespace:][:newline:]]*                    IGNORE
+

@@ -7,7 +7,7 @@ configurable:
 - of them, literal strings/numbers
 - of them, intellisense triggers (e.g. ".", "::")
 - (of them, virtual indent triggers)
-- auto-tabbing rules
+- auto-tabbing rules (front-tab, ...)
 - smart-home, smart-back, purify
 - mime-type list(, description) <-> xdgmime
 - beware of stuff like #if 0 ... #endif that can't be represented as a clean lexer rule
