@@ -59,105 +59,67 @@ class TCellRendererEditLineSelection(gobject.GObject):
   end_exclusive = property(lambda self: self._end_exclusive, set_end_exclusive)
   #color = property(lambda self: self._color, set_color)
 
+# private
+class TCellRendererEditLineStyles(object):
+  def __init__(self):
+    """ search_result color (background) """
+    self.search_result_selection_color   = gtk.gdk.Color(0xFFFF, 0xFFFF, 0x0000)
+    """ error hint color (background) """
+    self.error_hint_selection_color      = gtk.gdk.Color(0xFFFF, 0x0000, 0x0000)
+    """ selected text color (to clipboard) (background) """
+    self.clipboard_selection_color       = gtk.gdk.Color(0x0000, 0x0000, 0xFFFF)
+    """ ??? """
+    self.reference_selection_color       = gtk.gdk.Color(0x0000, 0x0000, 0x8000)
+    """ current instruction color (background) """
+    self.current_instruction_color       = gtk.gdk.Color(0xFFFF, 0xFD00, 0x6C00)
+    """ breakpoint color (background) """
+    self.breakpoint_color                = gtk.gdk.Color(0xFFFF, 0xA000, 0xA000)
+    """ disabled breakpoint color (background) """
+    self.disabled_breakpoint_color       = gtk.gdk.Color(0xFFFF, 0x0000, 0xFFFF)
+    """ unresolved breakpoint color (background) """
+    self.unresolved_breakpoint_color     = gtk.gdk.Color(0xFFFF, 0x0000, 0x0000)
+    """ color for the line the caret is in (background) """
+    self.careted_line_color              = gtk.gdk.Color(0x8000, 0xFFFF, 0xFFFF)
+    """ color for the old version's lines (background) """
+    self.diff_old_color                  = gtk.gdk.Color(0xE000, 0xE000, 0xE000) 
+    """ color for the new version's lines (background) """
+    self.diff_new_color                  = gtk.gdk.Color(0xFFFF, 0xFFFF, 0xFFFF)
+    """ color for the modified lines in a diff (background) """
+    self.diff_modification_color         = gtk.gdk.Color(0xF000, 0xF000, 0xF000)
+    """ color for the context lines (background) """
+    self.diff_context_color              = gtk.gdk.Color(0xFFFF, 0xFFFF, 0xFFFF)
+    """ keyword color (foreground) """
+    self.keyword_color                   = gtk.gdk.Color(0x0000, 0x0000, 0x0000)
+    """ directive color (foreground) """
+    self.directive_color                 = gtk.gdk.Color(0x0000, 0x0000, 0x0000)
+    """ color for literals (foreground) """
+    self.literal_color                   = gtk.gdk.Color(0x0000, 0xFFFF, 0x8000)
+    """ color for comments (foreground) """
+    self.comment_color                   = gtk.gdk.Color(0x0000, 0xFFFF, 0x0000)
+    """ color for syntax errors (foreground) """
+    self.bad_color                       = gtk.gdk.Color(0xFFFF, 0x0000, 0x0000)
+    """ color for escaped characters (foreground) """
+    self.escape_color                    = gtk.gdk.Color(0xFFFF, 0xB300, 0x4600)
+    """ color for types (foreground) """
+    self.type_color                      = gtk.gdk.Color(0x0000, 0xFFFF, 0x0000)
+    """ color for preprocessor directives (foreground) """
+    self.preprocessor_color              = gtk.gdk.Color(0x0000, 0x8000, 0x0000)
+    """ color for block delimiter (usually braces) (foreground) """
+    self.block_delimiter_color           = gtk.gdk.Color(0xFFFF, 0x0000, 0xF000)
+
 class TCellRendererEditLineClass(getattr(gobject, "GObjectMeta", type)):
   def __new__(cls, name, bases, dct):
     ret = type.__new__(cls, name, bases, dct)
-    
-    gtk.widget_class_install_style_property(ret, (
-      "search-result-selection-color", gtk.gdk.Color, "search result selection color",
-      "the color to draw the search result marker in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "error-hint-selection-color", gtk.gdk.Color, "error hint selection color",
-      "the color to draw the error hint marker in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "clipboard-selection-color", gtk.gdk.Color, "clipboard selection color",
-      "the color to draw the selected text marker in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "reference-selection-color", gtk.gdk.Color, "reference selection color",
-      "the color to draw the reference marker (brace finder, find references) in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "current-instruction-color", gtk.gdk.Color, "current instruction color",
-      "the color to draw the current instruction marker in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "breakpoint-color", gtk.gdk.Color, "breakpoint color",
-      "the color to draw the breakpoint marker in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "disabled-breakpoint-color", gtk.gdk.Color, "disabled breakpoint color",
-      "the color to draw disabled breakpoint marker in",
-      gobject.PARAM_READABLE))
 
-    gtk.widget_class_install_style_property(ret, (
-      "unresolved-breakpoint-color", gtk.gdk.Color, "unresolved breakpoint color",
-      "the color to draw unresolved breakpoint marker in",
-      gobject.PARAM_READABLE))
+    for name in dir(ret.__styles):
+      value = getattr(ret.__styles, name)
+      value_type = type(value)
 
-    gtk.widget_class_install_style_property(ret, (
-      "careted-line-color", gtk.gdk.Color, "careted line color",
-      "the color to draw the line that has the caret in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "diff-old-color", gtk.gdk.Color, "diff old color",
-      "the color to draw the old version diff lines in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "diff-new-color", gtk.gdk.Color, "diff new color",
-      "the color to draw the new version diff lines in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "diff-modification-color", gtk.gdk.Color, "diff modification color",
-      "the color to draw the modified version diff lines in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "diff-context-color", gtk.gdk.Color, "diff modification color",
-      "the color to draw the context lines in",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "keyword-color", gtk.gdk.Color, "keyword color",
-      "the color to use for words that are keywords",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "directive-color", gtk.gdk.Color, "directive color (keywords only reserved in some contexts)",
-      "the color to use for words that are directives",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "literal-color", gtk.gdk.Color, "color for literals",
-      "the color to use for literals",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "comment-color", gtk.gdk.Color, "color for comments",
-      "the color to use for comments",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "type-color", gtk.gdk.Color, "color for types",
-      "the color to use for types",
-      gobject.PARAM_READABLE))
-    
-    gtk.widget_class_install_style_property(ret, (
-      "bad-color", gtk.gdk.Color, "color for bad syntax",
-      "the foreground color to use for bad syntax",
-      gobject.PARAM_READABLE))
-    
+      gtk.widget_class_install_style_property(ret, (
+        name.replace("_", "-"), value_type, name.replace("_", "-"),
+        value.__doc__.strip(),
+        gobject.PARAM_READABLE))
+
     gobject.type_register(ret)
     return ret
 
@@ -287,12 +249,15 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
     "edited": (gobject.SIGNAL_RUN_LAST,
       gobject.TYPE_NONE, (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_STRING)),
   }
+
+  __styles_class = TCellRendererEditLineStyles
   
   # TODO tabstops?
        
   def __init__(self):
     gtk.GenericCellRenderer.__init__(self)
     
+    self.__styles = self.__class__.__styles_class()
     self.__text = ""
     self.__path = None
     self.__new_text = ""
@@ -359,6 +324,13 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
   # TODO use
   def do_style_set(self, what):
     style = what # self.get_style()
+    for name in dir(self.__styles):
+      value = getattr(self.__styles, name)
+      #type(value)
+
+      value = self.style_get_property(name.replace("_", "-"))
+      setattr(self.__styles, name, value)
+
     self.__search_result_selection_color = self.style_get_property("search-result-selection-color")
     self.__error_hint_selection_color = self.style_get_property("error-hint-selection-color")
     self.__clipboard_selection_color = self.style_get_property("clipboard-selection-color")
