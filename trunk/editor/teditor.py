@@ -106,6 +106,8 @@ class TCellRendererEditLineStyles(object):
 		self.preprocessor_color              = gtk.gdk.Color(0x0000, 0x8000, 0x0000)
 		""" color for block delimiter (usually braces) (foreground) """
 		self.block_delimiter_color           = gtk.gdk.Color(0xFFFF, 0x0000, 0xF000)
+		""" color for operators (foreground) """
+		self.operator_color                  = gtk.gdk.Color(0x0000, 0x0000, 0x0000)
 
 class TCellRendererEditLineClass(getattr(gobject, "GObjectMeta", type)):
 	def __new__(cls, name, bases, dct):
