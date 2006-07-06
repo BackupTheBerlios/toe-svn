@@ -1,59 +1,58 @@
 
 # pascal
 
-'begin'[[:whitespace:][:newline:]]*
-'end'[[:whitespace:][:newline:]]*
+'begin'[[:whitespace:][:newline:]]*             KEYWORD
+'end'[[:whitespace:][:newline:]]*               KEYWORD
 
-'if'[[:whitespace:][:newline:]]*
-'else'[[:whitespace:][:newline:]]*
-'for'[[:whitespace:][:newline:]]*
-'while'[[:whitespace:][:newline:]]*
-'repeat'[[:whitespace:][:newline:]]*
-'until'[[:whitespace:][:newline:]]*
-'integer'[[:whitespace:][:newline:]]*
-'cardinal'[[:whitespace:][:newline:]]*
-'byte'[[:whitespace:][:newline:]]*
-'word'[[:whitespace:][:newline:]]*
-'char'[[:whitespace:][:newline:]]*
-'case'[[:whitespace:][:newline:]]*
-'goto'[[:whitespace:][:newline:]]*
-'single'[[:whitespace:][:newline:]]*
-'double'[[:whitespace:][:newline:]]*
-'type'[[:whitespace:][:newline:]]*
-'record'[[:whitespace:][:newline:]]*
-'exit'[[:whitespace:][:newline:]]*
-'object'[[:whitespace:][:newline:]]*
-'uses'[[:whitespace:][:newline:]]*
-'program'[[:whitespace:][:newline:]]*
-'unit'[[:whitespace:][:newline:]]*
+'if'[[:whitespace:][:newline:]]*                KEYWORD
+'else'[[:whitespace:][:newline:]]*              KEYWORD
+'for'[[:whitespace:][:newline:]]*               KEYWORD
+'while'[[:whitespace:][:newline:]]*             KEYWORD
+'repeat'[[:whitespace:][:newline:]]*            KEYWORD
+'until'[[:whitespace:][:newline:]]*             KEYWORD
+'integer'[[:whitespace:][:newline:]]*           KEYWORD
+'cardinal'[[:whitespace:][:newline:]]*          KEYWORD
+'byte'[[:whitespace:][:newline:]]*              KEYWORD
+'word'[[:whitespace:][:newline:]]*              KEYWORD
+'char'[[:whitespace:][:newline:]]*              KEYWORD
+'case'[[:whitespace:][:newline:]]*              KEYWORD
+'goto'[[:whitespace:][:newline:]]*              KEYWORD
+'single'[[:whitespace:][:newline:]]*            KEYWORD
+'double'[[:whitespace:][:newline:]]*            KEYWORD
+'type'[[:whitespace:][:newline:]]*              KEYWORD
+'record'[[:whitespace:][:newline:]]*            KEYWORD
+'exit'[[:whitespace:][:newline:]]*              KEYWORD
+'object'[[:whitespace:][:newline:]]*            KEYWORD
+'uses'[[:whitespace:][:newline:]]*              KEYWORD
+'program'[[:whitespace:][:newline:]]*           KEYWORD
+'unit'[[:whitespace:][:newline:]]*              KEYWORD
 
 # object pascal
-'class'[[:whitespace:][:newline:]]*
-'interface'[[:whitespace:][:newline:]]*
-'virtual'[[:whitespace:][:newline:]]*
-'override'[[:whitespace:][:newline:]]*
-'overload'[[:whitespace:][:newline:]]*
-'inherited'[[:whitespace:][:newline:]]*
-'reintroduce'[[:whitespace:][:newline:]]*
-'abstract'[[:whitespace:][:newline:]]*
-'private'[[:whitespace:][:newline:]]*
-'public'[[:whitespace:][:newline:]]*
-'protected'[[:whitespace:][:newline:]]*
-'published'[[:whitespace:][:newline:]]*
-'try'[[:whitespace:][:newline:]]*
-'except'[[:whitespace:][:newline:]]*
-'finally'[[:whitespace:][:newline:]]*
+'class'[[:whitespace:][:newline:]]*             KEYWORD
+'interface'[[:whitespace:][:newline:]]*         KEYWORD
+'virtual'[[:whitespace:][:newline:]]*           KEYWORD
+'override'[[:whitespace:][:newline:]]*          KEYWORD
+'overload'[[:whitespace:][:newline:]]*          KEYWORD
+'inherited'[[:whitespace:][:newline:]]*         KEYWORD
+'reintroduce'[[:whitespace:][:newline:]]*       KEYWORD
+'abstract'[[:whitespace:][:newline:]]*          KEYWORD
+'private'[[:whitespace:][:newline:]]*           KEYWORD
+'public'[[:whitespace:][:newline:]]*            KEYWORD
+'protected'[[:whitespace:][:newline:]]*         KEYWORD
+'published'[[:whitespace:][:newline:]]*         KEYWORD
+'try'[[:whitespace:][:newline:]]*               KEYWORD
+'except'[[:whitespace:][:newline:]]*            KEYWORD
+'finally'[[:whitespace:][:newline:]]*           KEYWORD
 
-'sizeof'[[:whitespace:]]*[^[:newline:]]*
+'sizeof'[[:whitespace:]]*[^[:newline:]]*        KEYWORD
+'string'[[:whitespace:]]*[^[:newline:]]*        TYPE
+'utf8string'[[:whitespace:]]*[^[:newline:]]*    TYPE
+'TStringList'[[:whitespace:]]*[^[:newline:]]*   TYPE
+'T'[A-Z][A-ZA-z]*                               TYPE
 
-'string'[[:whitespace:]]*[^[:newline:]]*
-'utf8string'[[:whitespace:]]*[^[:newline:]]*
+''''[^']*''''                                   LITERAL
 
-'TStringList'[[:whitespace:]]*[^[:newline:]]*
-'T'[A-Z][A-ZA-z]*
-
-''''[^']*''''                                     LITERAL
-
-'.'[[:whitespace:][:newline:]]*
+'.'[[:whitespace:][:newline:]]*                 
 [[:whitespace:][:newline:]]*                    IGNORE
 
+# TODO comments
