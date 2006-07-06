@@ -1,62 +1,62 @@
 
 # C
-'if'[[:whitespace:][:newline:]]*
-'else'[[:whitespace:][:newline:]]*
-'for'[[:whitespace:][:newline:]]*
-'while'[[:whitespace:][:newline:]]*
-'do'[[:whitespace:][:newline:]]*
-'void'[[:whitespace:][:newline:]]*
-'int'[[:whitespace:][:newline:]]*
-'long'[[:whitespace:][:newline:]]*
-'unsigned'[[:whitespace:][:newline:]]*
-'signed'[[:whitespace:][:newline:]]*
-'size_t'[[:whitespace:][:newline:]]*
-'char'[[:whitespace:][:newline:]]*
-'switch'[[:whitespace:][:newline:]]*
-'case'[[:whitespace:][:newline:]]*
-'default'[[:whitespace:][:newline:]]*
-'goto'[[:whitespace:][:newline:]]*
-'float'[[:whitespace:][:newline:]]*
-'double'[[:whitespace:][:newline:]]*
-'complex'[[:whitespace:][:newline:]]*
-'static'[[:whitespace:][:newline:]]*
-'struct'[[:whitespace:][:newline:]]*
-'typedef'[[:whitespace:][:newline:]]*
-'enum'[[:whitespace:][:newline:]]*
-'return'[[:whitespace:][:newline:]]*
-'extern'[[:whitespace:][:newline:]]*
+'if'[[:whitespace:][:newline:]]*                KEYWORD
+'else'[[:whitespace:][:newline:]]*              KEYWORD
+'for'[[:whitespace:][:newline:]]*               KEYWORD
+'while'[[:whitespace:][:newline:]]*             KEYWORD
+'do'[[:whitespace:][:newline:]]*                KEYWORD
+'void'[[:whitespace:][:newline:]]*              KEYWORD
+'int'[[:whitespace:][:newline:]]*               KEYWORD
+'long'[[:whitespace:][:newline:]]*              KEYWORD
+'unsigned'[[:whitespace:][:newline:]]*          KEYWORD
+'signed'[[:whitespace:][:newline:]]*            KEYWORD
+'size_t'[[:whitespace:][:newline:]]*            KEYWORD
+'char'[[:whitespace:][:newline:]]*              KEYWORD
+'switch'[[:whitespace:][:newline:]]*            KEYWORD
+'case'[[:whitespace:][:newline:]]*              KEYWORD
+'default'[[:whitespace:][:newline:]]*           KEYWORD
+'goto'[[:whitespace:][:newline:]]*              KEYWORD
+'float'[[:whitespace:][:newline:]]*             KEYWORD
+'double'[[:whitespace:][:newline:]]*            KEYWORD
+'complex'[[:whitespace:][:newline:]]*           KEYWORD
+'static'[[:whitespace:][:newline:]]*            KEYWORD
+'struct'[[:whitespace:][:newline:]]*            KEYWORD
+'typedef'[[:whitespace:][:newline:]]*           KEYWORD
+'enum'[[:whitespace:][:newline:]]*              KEYWORD
+'return'[[:whitespace:][:newline:]]*            KEYWORD
+'extern'[[:whitespace:][:newline:]]*            KEYWORD
 
 # C++
-'class'[[:whitespace:][:newline:]]*
-'virtual'[[:whitespace:][:newline:]]*
-'namespace'[[:whitespace:][:newline:]]*
-'using'[[:whitespace:][:newline:]]*
-'private'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
-'public'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
-'protected'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
-'try'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
-'catch'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*
+'class'[[:whitespace:][:newline:]]*             KEYWORD
+'virtual'[[:whitespace:][:newline:]]*           KEYWORD
+'namespace'[[:whitespace:][:newline:]]*         KEYWORD
+'using'[[:whitespace:][:newline:]]*             KEYWORD
+'private'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*     KEYWORD
+'public'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*      KEYWORD
+'protected'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*   KEYWORD
+'try'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*      KEYWORD
+'catch'[[:whitespace:][:newline:]]*':'[[:whitespace:][:newline:]]*    KEYWORD
 
 # CPP
 
-'#define'[[:whitespace:]]*[^[:newline:]]*
-'#undef'[[:whitespace:]]*[^[:newline:]]*
-'#include'[[:whitespace:]]*[^[:newline:]]*
-'#ifdef'[[:whitespace:]]*[^[:newline:]]*
-'#ifndef'[[:whitespace:]]*[^[:newline:]]*
-'#error'[[:whitespace:]]*[^[:newline:]]*
-'#warning'[[:whitespace:]]*[^[:newline:]]*
+'#define'[[:whitespace:]]*[^[:newline:]]*       PREPROCESSOR
+'#undef'[[:whitespace:]]*[^[:newline:]]*        PREPROCESSOR
+'#include'[[:whitespace:]]*[^[:newline:]]*      PREPROCESSOR
+'#ifdef'[[:whitespace:]]*[^[:newline:]]*        PREPROCESSOR
+'#ifndef'[[:whitespace:]]*[^[:newline:]]*       PREPROCESSOR
+'#error'[[:whitespace:]]*[^[:newline:]]*        PREPROCESSOR
+'#warning'[[:whitespace:]]*[^[:newline:]]*      PREPROCESSOR
 
 # operators (C, C++)
-'sizeof'[[:whitespace:]]*[^[:newline:]]*
-'new'[[:whitespace:]]*[^[:newline:]]*
-'delete'[[:whitespace:]]*[^[:newline:]]*
+'sizeof'[[:whitespace:]]*[^[:newline:]]*        OPERATOR
+'new'[[:whitespace:]]*[^[:newline:]]*           OPERATOR
+'delete'[[:whitespace:]]*[^[:newline:]]*        OPERATOR
 
 # C++ STL
-'string'[[:whitespace:]]*[^[:newline:]]*
-'map'[[:whitespace:]]*[^[:newline:]]*
-'vector'[[:whitespace:]]*[^[:newline:]]*
-'list'[[:whitespace:]]*[^[:newline:]]*
+'string'[[:whitespace:]]*[^[:newline:]]*        TYPE
+'map'[[:whitespace:]]*[^[:newline:]]*           TYPE
+'vector'[[:whitespace:]]*[^[:newline:]]*        TYPE
+'list'[[:whitespace:]]*[^[:newline:]]*          TYPE
 
 '"'[^"]*'"'                                     LITERAL
 

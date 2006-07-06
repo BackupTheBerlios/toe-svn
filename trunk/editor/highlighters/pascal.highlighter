@@ -56,3 +56,4 @@
 [[:whitespace:][:newline:]]*                    IGNORE
 
 # TODO comments
+'{'[^}]*'}'                                     COMMENT
