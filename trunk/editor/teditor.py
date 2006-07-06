@@ -958,6 +958,11 @@ edit_view_1 = TEditView()
 # invisible:
 #   lexer state at beginning of line
 
+# line number is:
+#  1) IN the model as normal data
+#  2) signed, where negative numbers are old diff lines.
+#  3) 0 is invalid
+
 edit_view_1.model = gtk.TreeStore(int, str, str)
 
 cell1 = TCellRendererEditLine()
