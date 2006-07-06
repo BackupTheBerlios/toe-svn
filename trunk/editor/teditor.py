@@ -124,13 +124,38 @@ class TCellRendererEditLineClass(getattr(gobject, "GObjectMeta", type)):
       gobject.PARAM_READABLE))
     
     gtk.widget_class_install_style_property(ret, (
+      "diff-context-color", gtk.gdk.Color, "diff modification color",
+      "the color to draw the context lines in",
+      gobject.PARAM_READABLE))
+    
+    gtk.widget_class_install_style_property(ret, (
       "keyword-color", gtk.gdk.Color, "keyword color",
       "the color to use for words that are keywords",
       gobject.PARAM_READABLE))
     
     gtk.widget_class_install_style_property(ret, (
-      "quoted-string-color", gtk.gdk.Color, "string color",
-      "the color to use for quoted strings",
+      "directive-color", gtk.gdk.Color, "directive color (keywords only reserved in some contexts)",
+      "the color to use for words that are directives",
+      gobject.PARAM_READABLE))
+    
+    gtk.widget_class_install_style_property(ret, (
+      "literal-color", gtk.gdk.Color, "color for literals",
+      "the color to use for literals",
+      gobject.PARAM_READABLE))
+    
+    gtk.widget_class_install_style_property(ret, (
+      "comment-color", gtk.gdk.Color, "color for comments",
+      "the color to use for comments",
+      gobject.PARAM_READABLE))
+    
+    gtk.widget_class_install_style_property(ret, (
+      "type-color", gtk.gdk.Color, "color for types",
+      "the color to use for types",
+      gobject.PARAM_READABLE))
+    
+    gtk.widget_class_install_style_property(ret, (
+      "bad-color", gtk.gdk.Color, "color for bad syntax",
+      "the foreground color to use for bad syntax",
       gobject.PARAM_READABLE))
     
     gobject.type_register(ret)
@@ -231,8 +256,14 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
       gobject.PARAM_READWRITE),
     
     "is-diff-modification": (gobject.TYPE_BOOLEAN,
-      "diff new version",
+      "diff modification version",
       "whether this line is part of a common line of a diff with modifications",
+      False,
+      gobject.PARAM_READWRITE),
+      
+    "is-diff-context": (gobject.TYPE_BOOLEAN,
+      "diff context",
+      "whether this line is one of the context lines of a diff",
       False,
       gobject.PARAM_READWRITE),
       
@@ -274,6 +305,7 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
     self.__is_diff_old = False
     self.__is_diff_new = False
     self.__is_diff_modification = False
+    self.__is_diff_context = False
     self.__has_caret_currently = False
     self.__is_unresolved_breakpoint = False
     self.__is_disabled_breakpoint = False
@@ -339,8 +371,16 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
     self.__diff_old_color = self.style_get_property("diff-old-color")
     self.__diff_new_color = self.style_get_property("diff-new-color")
     self.__diff_modification_color = self.style_get_property("diff-modification-color")
+    self.__diff_context_color = self.style_get_property("diff-context-color")
     self.__keyword_color = self.style_get_property("keyword-color")
-    self.__quoted_string_color = self.style_get_property("quoted-string-color")
+    self.__directive_color = self.style_get_property("directive-color")
+    self.__literal_color = self.style_get_property("literal-color")
+    self.__comment_color = self.style_get_property("comment-color")
+    self.__bad_color = self.style_get_property("bad-color")
+    self.__escape_color = self.style_get_property("escape-color")
+    self.__type_color = self.style_get_property("type-color")
+    self.__preprocessor_color = self.style_get_property("preprocessor-color")
+    self.__block_delimiter_color = self.style_get_property("block-delimiter-color")
     self.__font = style.font_desc
     self.queue_resize()
     #print "STYLE"
@@ -391,6 +431,8 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
       return self.__is_diff_new
     elif property1.name == "is-diff-modification":
       return self.__is_diff_modification
+    elif property1.name == "is-diff-context":
+      return self.__is_diff_context
     elif property1.name == "has-caret-currently":
       return self.__has_caret_currently
     elif property1.name == "initial-highlighter-state":
@@ -442,6 +484,8 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
       self.__is_diff_new = value
     elif property1.name == "is-diff-modification":
       self.__is_diff_modification = value
+    elif property1.name == "is-diff-context":
+      self.__is_diff_context = value
     elif property1.name == "has-caret-currently":
       self.__has_caret_currently = value
     elif property1.name == "initial-highlighter-state":
@@ -522,6 +566,8 @@ class TCellRendererEditLine(gtk.GenericCellRenderer):
       background_color_name = "diff-new-color"
     elif self.__is_diff_modification == True:
       background_color_name = "diff-modification-color"
+    elif self.__is_diff_context == True:
+      background_color_name = "diff-context-color"
     elif self.__is_diff_old == True:
       background_color_name = "diff-old-color"
     
@@ -615,9 +661,17 @@ class TEditView(gtk.VBox):
     self.__diff_old_color = None
     self.__diff_new_color = None
     self.__diff_modification_color = None
+    self.__diff_context_color = None
     self.__keyword_color = None
-    self.__quoted_string_color = None
-    
+    self.__directive_color = None
+    self.__literal_color = None
+    self.__comment_color = None
+    self.__bad_color = None
+    self.__escape_color = None
+    self.__preprocessor_color = None
+    self.__block_delimiter_color = None
+    self.__type_color = None
+
     self.__rows_reordered_handler_id = None
     self.__row_inserted_handler_id = None
     self.__row_has_child_toggled_handler_id = None
