@@ -30,6 +30,94 @@ INT_MAX = 2**31 - 1
 
 # syntax highlighting!!!
 
+# TODO flag :)
+
+class TCellRendererBreakpoint(gtk.GenericCellRenderer):
+	# TODO button-like (hover and such)
+        __gtype_name__ = "TCellRendererBreakpoint"
+        __gproperties__ = {
+		"present": (gobject.TYPE_BOOLEAN,
+		            "present?",
+		            "is there a breakpoint?",
+		            False,
+		            gobject.PARAM_READWRITE),
+		"resolved": (gobject.TYPE_BOOLEAN,
+		             "resolved?",
+		             "is the breakpoint resolved?",
+		             False,
+		             gobject.PARAM_READWRITE),
+		"enabled": (gobject.TYPE_BOOLEAN,
+		            "enabled?",
+		            "is the breakpoint enabled?",
+		            False,
+		            gobject.PARAM_READWRITE),
+	}
+
+
+	# TODO description hint and atk info
+
+	def __init__(self):
+		gtk.GenericCellRenderer.__init__(self)
+		self.__present = False
+		self.__resolved = False
+		self.__enabled = False
+		self.__width = None
+		self.__height = None
+
+	def do_get_property(self, property_1):
+		if property_1.name == "present":
+			return self.__present
+		elif property_1.name == "resolved":
+			return self.__resolved
+		elif property_1.name == "enabled":
+			return self.__enabled
+		else:
+			raise exceptions.AttributeError, "unknown property %s" % property1.name
+
+	def do_set_property(self, property_1, value):
+		if property_1.name == "present":
+			self.__present = value
+		elif property_1.name == "resolved":
+			self.__resolved = value
+		elif property_1.name == "enabled":
+			self.__enabled = value
+		else:
+			raise exceptions.AttributeError, "unknown property %s" % property1.name
+
+	def on_get_size(self, widget, cell_area):
+		self.__layout = None
+		self._ensure_layout(widget) # TODO
+
+		size = self.__layout.get_pixel_size() # extents?
+		
+		self.__width = self.props.xpad * 2 + size[0]
+		self.__height = self.props.ypad * 2 + size[1]
+		
+		return 0, 0, self.__width, self.__height
+		
+		# Please note that the values set in width and height, as well as those in x_offset and y_offset are inclusive of the xpad and ypad properties.
+		# If cell_area is not NULL, fills in the x and y offsets (if set) of the cell relative to this location.
+		
+		# pango_context_get_metrics
+		# pango_font_metrics_get_approximate_char_width
+
+	def on_render(self, window, widget, background_area, cell_area, expose_area, flags):
+		x_offset, y_offset, item_width, item_height = self.on_get_size(widget, cell_area)
+
+		icon_name = None
+		if self.__present == False:
+			icon_name = None
+		elif self.__enabled == False:
+			icon_name = gtk.STOCK_MEDIA_PLAY
+		elif self.__resolved == False:
+			icon_name = gtk.STOCK_DIALOG_WARNING
+		else:
+			icon_name = gtk.STOCK_MEDIA_PAUSE
+
+		if icon_name != None:
+			# TODO honor font?
+			widget.render_icon(icon_name, gtk.ICON_SIZE_MENU, None)
+
 class TCellRendererEditLineSelection(gobject.GObject):
 	__gtype_name__ = "TCellRendererEditLineSelection"
 	def __init__(self):
