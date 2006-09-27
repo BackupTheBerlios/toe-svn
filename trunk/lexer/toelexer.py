@@ -86,7 +86,7 @@ class TLexer(object):
     
     if self._eof_pending == True:
       self._eof = True
-      return
+      return INVALID
     
     if self._source_stream == None:
       self._eof = True
