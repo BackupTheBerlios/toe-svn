@@ -20,9 +20,9 @@ StopIteration
   
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
-[[:whitespace:]]\tIGNORE
-[[:newline:]]\tIGNORE
-'NAMESPACE'[[:whitespace:][:newline:]]
+[[:whitespace:]]                        IGNORE
+[[:newline:]]                           IGNORE
+'NAMESPACE'[[:whitespace:][:newline:]]  NAMESPACE
 """)
   generator_stream.seek(0)
 

@@ -755,18 +755,17 @@ class TLexerGenerator(object):
         continue
       
       self._token_name = ""
-      
-      # FIXME: this isnt nice but has to do until I am bored enough to 
-      #  implement proper escape quotes
-      if line.startswith("'\t"):
-        # bad.
-        #Writeln('warning: skipping tab literal for now');
-        xi = line[2:].find("\t")
-        if xi > -1:
-          xi = xi +2
-      else:
-        xi = line.find("\t")
-        
+
+      line = line.strip()
+
+      xi = -1
+
+      # reverse-find whitespace
+      for i in range(len(line) - 1, -1, -1):
+        if line[i] in [" ", "\t"]:
+          xi = i
+          break
+
       if xi > -1:
         self._token_name = line[xi + 1:]
         line = line[: xi]

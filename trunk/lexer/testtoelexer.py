@@ -9,7 +9,7 @@ def test_lexer():
   """
 >>> generator = test_lexer()
 >>> generator.next()
-('len(lexer.states)', 929)
+('len(lexer.states)', 1371)
 >>> generator.next()
 (18, 'NAMESPACE')
 >>> generator.next()
@@ -33,13 +33,13 @@ StopIteration
   """
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
-[[:newline:]]	NEWLINE
-[[:whitespace:]]	IGNORE
-'namespace'[[:whitespace:]]*	NAMESPACE
-[a-z][a-z0-9_?!]*	ID
-':='[[:whitespace:]]*	ASSIGNMENT
-'+'[[:whitespace:]]*	PLUS
-'.'	DOT
+[[:newline:]]                 NEWLINE
+[[:whitespace:]]              IGNORE
+'namespace'[[:whitespace:]]*  NAMESPACE
+[a-z][a-z0-9_?!]*             ID
+':='[[:whitespace:]]*         ASSIGNMENT
+'+'[[:whitespace:]]*          PLUS
+'.'                           DOT
 """)
   generator_stream.seek(0)
 

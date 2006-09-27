@@ -29,9 +29,9 @@ StopIteration
   
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
-[[:whitespace:]]	IGNORE
-'NAMESPACE'[[:whitespace:]]*
-[a-zA-Z_[:utf8:]][a-zA-Z0-9_]*[?!]*[[:whitespace:]]*	ID
+[[:whitespace:]]                                      IGNORE
+'NAMESPACE'[[:whitespace:]][[:whitespace:]]*          NAMESPACE
+[a-zA-Z_[:utf8:]][a-zA-Z0-9_]*[?!]*[[:whitespace:]]*  ID
 '.'	DOT
 """)
   generator_stream.seek(0)
