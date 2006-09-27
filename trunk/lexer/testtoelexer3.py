@@ -22,7 +22,7 @@ StopIteration
   
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
-'NAMESPACE'
+'NAMESPACE'   NAMESPACE
 
 """)
   generator_stream.seek(0)

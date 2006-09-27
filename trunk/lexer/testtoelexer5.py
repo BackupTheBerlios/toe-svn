@@ -21,7 +21,7 @@ StopIteration
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
 'NAMESPACE'
-' '\tIGNORE
+' '           IGNORE
 """)
   generator_stream.seek(0)
 
