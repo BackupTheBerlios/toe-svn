@@ -12,7 +12,7 @@ Has a typo in the generator stream on purpose.
 >>> generator = test_lexer()
 >>> generator.next()
 Traceback (most recent call last):
-ELexerLoadError: in line(3): ' ' IGNO -->  <-- ' ' IGNORE
+ELexerLoadError: in line(3): ' ' IGNORE
 syntax error (3), char is " "
 
   """

@@ -160,9 +160,10 @@ class TLexerGenerator(object):
     line = self._line
     ci = 0 # TODO use actual position in line?
     
-    location_1 = "in line(%d): %s --> %s <-- %s" % (
-      self._line_number, line[:ci - 2],
-      line[ci - 1: ci], line[ci:])
+    location_1 = "in line(%d): %s" % (self._line_number, line)
+    #" --> %s <-- %s" % (
+    #  self._line_number, line[:ci - 2],
+    #  line[ci - 1: ci], line[ci:])
       
     return "%s\n%s" % (location_1, error_message)
 
