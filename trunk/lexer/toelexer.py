@@ -28,9 +28,8 @@ class ELexerEofError(exceptions.Exception):
   pass
     
 class TLexer(object):
-  def __init__(self):
+  def __init__(self, states = None):
     global INVALID
-    self._states = TLexerStates()
     self._token = INVALID
     self._eof = False
     self._eof_pending = False
@@ -45,6 +44,9 @@ class TLexer(object):
     self._input_char_valid = False
     self._matched_text_clear_next = True
     self._last_state_change = time.time()
+    self._states = TLexerStates()
+    if states is not None:
+      self.set_states(states)
     
   def set_states(self, value):
     assert(isinstance(value, TLexerStates))
