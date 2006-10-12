@@ -28,7 +28,7 @@ class ELexerEofError(exceptions.Exception):
   pass
     
 class TLexer(object):
-  def __init__(self, states = None):
+  def __init__(self, **kwargs):
     global INVALID
     self._token = INVALID
     self._eof = False
@@ -45,8 +45,10 @@ class TLexer(object):
     self._matched_text_clear_next = True
     self._last_state_change = time.time()
     self._states = TLexerStates()
-    if states is not None:
-      self.set_states(states)
+
+    for key, value in kwargs.items():
+      assert(hasattr(self, "set_" + key))
+      getattr(self, "set_" + key)(value)
     
   def set_states(self, value):
     assert(isinstance(value, TLexerStates))
