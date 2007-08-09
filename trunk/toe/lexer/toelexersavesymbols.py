@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from toelexer import TLexer, ELexerEofError
-from toelexergenerator import TLexerGenerator, ELexerLoadError
+from compiler import TLexerGenerator, ELexerLoadError
 from toetokens import TToeToken
 
 import cStringIO

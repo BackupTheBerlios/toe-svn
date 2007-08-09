@@ -43,7 +43,7 @@ def _test_nosy_lexer():
 """)
   generator_stream.seek(0)
 
-  from toelexergenerator import TLexerGenerator
+  from compiler import TLexerGenerator
   
   generator = TLexerGenerator(TToeToken)
 
