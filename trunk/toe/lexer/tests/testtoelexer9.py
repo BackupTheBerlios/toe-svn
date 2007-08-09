@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from toelexer import TLexer, ELexerEofError
-from toelexergenerator import TLexerGenerator, ELexerLoadError
+from toe.lexer import TLexer, ELexerEofError
+from toe.lexer.compiler import TLexerGenerator, ELexerLoadError
 import toe.symbol
 import cStringIO
 
@@ -10,17 +10,17 @@ def test_lexer():
 
 >>> generator = test_lexer()
 >>> generator.next()
-(18, 'NAMESPACE')
+toe.symbol.intern("namespace")
 >>> generator.next()
-(79, 'ID')
+toe.symbol.intern("id")
 >>> generator.next()
-(76, 'DOT')
+toe.symbol.intern("dot")
 >>> generator.next()
-(79, 'ID')
+toe.symbol.intern("id")
 >>> generator.next()
-(76, 'DOT')
+toe.symbol.intern("dot")
 >>> generator.next()
-(79, 'ID')
+toe.symbol.intern("id")
 >>> generator.next()
 Traceback (most recent call last):
   File "<stdin>", line 1, in ?

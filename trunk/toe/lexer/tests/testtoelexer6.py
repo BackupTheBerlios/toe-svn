@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from toelexer import TLexer, ELexerEofError
-from toelexergenerator import TLexerGenerator, ELexerLoadError
+from toe.lexer import TLexer, ELexerEofError
+from toe.lexer.compiler import TLexerGenerator, ELexerLoadError
 import toe.symbol
 import cStringIO
 
@@ -11,7 +11,7 @@ Has a typo in the generator stream on purpose.
 
 >>> generator = test_lexer()
 >>> generator.next()
-(1, 'INVALID')
+toe.symbol.intern("invalid")
   """
   
   generator_stream = cStringIO.StringIO()
@@ -34,7 +34,7 @@ Has a typo in the generator stream on purpose.
   lexer.source_stream = test_stream
 
   while not lexer.eof:
-    yield (lexer.token, repr(lexer.token))
+    yield lexer.token
     lexer.consume()
 
 """

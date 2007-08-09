@@ -152,7 +152,9 @@ class TLexerGenerator(object):
   # returns: <toe.symbol.symbol> # TODO: get rid of 'self._token_name', it's ugly
   def declare_symbol(self):
     try:
-      return self._token_table.set(toe.symbol.intern(self._token_name), None)
+      token = toe.symbol.intern(self._token_name)
+      self._token_table.set(token, None)
+      return token
     except exceptions.Exception, e:
       print >>sys.stderr, "toe.compiler: exception: ", e
       raise ELexerLoadError("syntax error (11): unknown token \"%s\"" % self._token_name) # SIGH near ' + Copy(line, ci - 1, Length(line)));

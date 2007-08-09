@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from toelexer import TLexer, ELexerEofError
-from toelexergenerator import TLexerGenerator, ELexerLoadError
+from toe.lexer import TLexer, ELexerEofError
+from toe.lexer.compiler import TLexerGenerator, ELexerLoadError
 import toe.symbol
 import cStringIO
 
@@ -9,9 +9,9 @@ def test_lexer():
   """
 >>> generator = test_lexer()
 >>> generator.next()
-(18, 'NAMESPACE')
+toe.symbol.intern("namespace")
 >>> generator.next()
-(18, 'NAMESPACE')
+toe.symbol.intern("namespace")
 >>> generator.next()
 Traceback (most recent call last):
   File "<stdin>", line 1, in ?
@@ -26,7 +26,7 @@ StopIteration
 """)
   generator_stream.seek(0)
 
-
+  table_1 = toe.symbol.table()
   generator = TLexerGenerator(table_1)
 
   lexer = TLexer()
@@ -41,7 +41,7 @@ namespace
   lexer.source_stream = test_stream
 
   while not lexer.eof:
-    yield (lexer.token, repr(lexer.token))
+    yield lexer.token
     lexer.consume()
 
 __test__ = {
