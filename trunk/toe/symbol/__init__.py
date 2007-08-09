@@ -17,6 +17,10 @@ class symbol(object):
 		self.text = text
 
 	def __repr__(self):
+		return "toe.symbol.intern(\"%s\")" % self.text # TODO escape
+		#return "\\%s" % self.text
+
+	def __str__(self):
 		return "#\"%s\"" % self.text
 		#return "\\%s" % self.text
 
