@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from toelexerdata import TLexerStates, TLexerStateTransition
+from data import TLexerStates, TLexerStateTransition
 import sys
 import exceptions
 

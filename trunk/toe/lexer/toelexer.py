@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import exceptions
-from toelexerdata import TLexerStates
+from data import TLexerStates
 import time
 
 TToken = int
