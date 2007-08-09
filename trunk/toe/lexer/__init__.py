@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-__all__ = [ "data", "compiler", "nosy" ]
+__all__ = [ "data", "compiler" ]
 
 import data
 from toelexer import ELexerEofError
