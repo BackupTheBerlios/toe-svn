@@ -1,0 +1,17 @@
+
+[[:newline:]]	NEWLINE
+[[:whitespace:]]	IGNORE
+'namespace'[[:whitespace:]]*	NAMESPACE
+'distinct'[[:whitespace:]]*	DISTINCT
+[a-z][a-z0-9_?!]*	ID
+'#'[^[:newline:]]*	LINE_COMMENT
+':='	ASSIGNMENT
+'+'	PLUS
+'...'	AND_SO_ON
+'.'	DOT
+','	COMMA
+'('	OPEN_BRACE
+')'	CLOSE_BRACE
+'"'[^"]*'"'	QUOTED_STRING
+
+
