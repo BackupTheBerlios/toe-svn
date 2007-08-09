@@ -8,9 +8,11 @@ TODO:
 - case-sensitiveness option
 - multiple symbol tables
 - deletion of symbol tables
+- support read-only operation
 """
 
 class symbol(object):
+	""" don't instantiate this directly! """
 	def __init__(self, text):
 		self.text = text
 
@@ -20,33 +22,40 @@ class symbol(object):
 
 # TODO do this properly
 
-class symbol_table(dict):
-	def intern(self, text):
-		"""
-		>>> a = intern("a")
-		>>> b = intern("b")
-		>>> id(a) == id(b)
-		False
-		>>> id(a) == id(intern("a"))
-		True
-		>>> id(b) == id(intern("b"))
-		True
-		>>> id(b) == id(intern("a"))
-		False
-		>>> id(a) == id(intern("b"))
-		False
-		"""
-	        result = self.get(text)
-	        if result is None:
-                	result = symbol(text)
-        	        self[text] = result
+class table(dict): # key :: <symbol>
+	def set(self, symbol_1, value):
+		""" @takes(symbol, object) """
+		assert(isinstance(symbol_1, symbol))
+		self[symbol_1] = value
 
-		return result
+		return self
 
-global_table = symbol_table()
-def intern(name):
-	global global_table
-	return global_table.intern(name)
+interned_strings = {} # name -> symbol
+
+def intern(text):
+	"""
+	>>> a = intern("a")
+	>>> b = intern("b")
+	>>> id(a) == id(b)
+	False
+	>>> id(a) == id(intern("a"))
+	True
+	>>> id(b) == id(intern("b"))
+	True
+	>>> id(b) == id(intern("a"))
+	False
+	>>> id(a) == id(intern("b"))
+	False
+	>>> id(a) == symbol("a")
+	False
+	"""
+	global interned_strings
+	result = interned_strings.get(text)
+	if result is None:
+		result = symbol(text)
+		interned_strings[text] = result
+
+	return result
 
 if __name__ == "__main__":
 	import doctest
