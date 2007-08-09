@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# TODO getopt, tokens, ...
+
 from toelexer import TLexer, ELexerEofError
 from compiler import TLexerGenerator, ELexerLoadError
 from toetokens import TToeToken
