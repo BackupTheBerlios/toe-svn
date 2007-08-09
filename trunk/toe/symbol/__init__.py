@@ -54,6 +54,7 @@ def intern(text):
 	False
 	"""
 	global interned_strings
+	text = text.lower()
 	result = interned_strings.get(text)
 	if result is None:
 		result = symbol(text)
