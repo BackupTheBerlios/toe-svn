@@ -3,11 +3,11 @@
 from data import TLexerStates, TLexerStateTransition
 import sys
 import exceptions
+import toe.symbol
 
 STATE_INVALID = 0 # dupe
 STATE_INITIAL = 1 # dupe
-INVALID = 1
-
+INVALID = toe.symbol.intern("invalid") # invalid token
 
 def phony_upper_case(c):
   return c.upper()
@@ -126,13 +126,13 @@ class ELexerLoadError(exceptions.Exception):
   pass
 
 class TLexerGenerator(object):
-  def __init__(self, token_definitions): # token_definitions: list(string)
+  def __init__(self, token_table): # token_table: symbol_table
     self._lexer_states = TLexerStates()
     self._line_number = 0
-    #self._token_definitions = {}
     self._line = None # for error messages
     
-    self._token_definitions = token_definitions
+    self._token_table = token_table
+
     
     self._token_name = None
     self._matchset1 = TLexerMatchset()
@@ -149,11 +149,12 @@ class TLexerGenerator(object):
     assert(new_state > STATE_INVALID) # state invalid
     return new_state
 
-  # returns: TToken
-  def get_token_id(self):
+  # returns: <toe.symbol.symbol> # TODO: get rid of 'self._token_name', it's ugly
+  def declare_symbol(self):
     try:
-      return getattr(self._token_definitions, self._token_name)
-    except:
+      return self._token_table.set(toe.symbol.intern(self._token_name), None)
+    except exceptions.Exception, e:
+      print >>sys.stderr, "toe.compiler: exception: ", e
       raise ELexerLoadError("syntax error (11): unknown token \"%s\"" % self._token_name) # SIGH near ' + Copy(line, ci - 1, Length(line)));
 
   def format_loader_error(self, error_message):
@@ -252,7 +253,7 @@ class TLexerGenerator(object):
           res = res + "  %s -> S%d\r\n" % (phonychr(i), trans2.transitions[i])
 
     if trans2.fallback_token <> INVALID:
-      res = res + "  DONE -> found %s (%d)\r\n" % (self._token_definitions.to_name(trans2.fallback_token), trans2.fallback_token)
+      res = res + "  DONE -> found %s\r\n" % repr(trans2.fallback_token)
 
     if trans2.is_wildcard_tainted: # ?
       res = res + "  (wildcard tainted)\r\n"
@@ -275,7 +276,6 @@ class TLexerGenerator(object):
   ):
     global STATE_INVALID
     global STATE_INITIAL
-    global INVALID # token
     
     trans2 = self._lexer_states.states[x_state]
     okuseagain = (trans2.is_wildcard_tainted == False) # TODO maybe nothing in the path to here can be wildcard tainted.
@@ -305,7 +305,7 @@ class TLexerGenerator(object):
       # then is needs to 'copy' from EX2
 
       if trans2.fallback_token == INVALID: # needs to be unset, still
-        # trans2.FallbackToken = self.get_token_id()
+        # trans2.FallbackToken = self.declare_symbol()
         pass
 
     else: # ok to use state again
@@ -328,7 +328,6 @@ class TLexerGenerator(object):
     anewstate, # i[/o]: TLexerState;
     is_wildcard #: Boolean
   ):
-    global INVALID
     global STATE_INVALID
     global STATE_INITIAL
     
@@ -658,7 +657,6 @@ class TLexerGenerator(object):
     
     global STATE_INITIAL
     global STATE_INVALID
-    global INVALID # token
     
     self._wildcard_fixups = {}
 
@@ -682,12 +680,11 @@ class TLexerGenerator(object):
           trans2 = self._lexer_states.states[state]
         
           if trans2.fallback_token == INVALID:
-            trans2.fallback_token = self.get_token_id()
+            trans2.fallback_token = self.declare_symbol()
     
   def process_line_1(self, line, state):
     global STATE_INITIAL
     global STATE_INVALID
-    global INVALID # token
 
     ci = 0
 
@@ -714,7 +711,7 @@ class TLexerGenerator(object):
       trans2 = self._lexer_states.states[state]
         
       if trans2.fallback_token == INVALID:
-        trans2.fallback_token = self.get_token_id()
+        trans2.fallback_token = self.declare_symbol()
         #print "token", trans2.fallback_token, self._token_definitions
         # trans2.is_modified = True
       else:
@@ -783,7 +780,7 @@ class TLexerGenerator(object):
       
 if __name__ == "__main__":
   import cStringIO
-  from toetokens import TToeToken
+  import toe.symbol
   
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
@@ -792,9 +789,11 @@ if __name__ == "__main__":
   """)
   generator_stream.seek(0)
   
-  generator = TLexerGenerator(TToeToken)
+  table_1 = toe.symbol.table()
+  generator = TLexerGenerator(table_1)
   
   lexer_states = generator.load(generator_stream, False)
   assert(len(lexer_states) > 2) # initial, invalid
   
   print len(lexer_states)
+  assert(set(table_1.keys()) == set([toe.symbol.intern("NAMESPACE")]))

@@ -3,31 +3,58 @@
 # TODO getopt, tokens, ..., C source
 
 import sys
+import os
 from toe.lexer import TLexer, ELexerEofError
 from toe.lexer.compiler import TLexerGenerator, ELexerLoadError
-from toe.tokens import TToeToken # TODO
+import toe.symbol
+import getopt
 
 import cStringIO
 import pickle
-
+import tempfile
+import os
 
 def usage(exit_code = 1):
-	print >>sys.stderr, """Usage: %s [-l {pickle|c}] [-t <python-thing-name>] [-o <output-file-name>] <source-rules-file-name>
+	print >>sys.stderr, """Usage: %s [-l {pickle|c}] [-o <output-file-name>] <source-rules-file-name>
 
---target-language={pickle|c}
---tokens=<python-thing-name>
---output=<output-file-name>   # defaults to standard output
-<source-rules-file-name>""" % sys.argv[0]
+--target-language={pickle|c}    Sets the target language 
+--output=<output-file-name>     Sets the name of the output file # defaults to standard output, no file
+<source-rules-file-name>        The rule file to read
+""" % sys.argv[0]
 	sys.exit(exit_code)
 
-usage()
+options, args = getopt.getopt(sys.argv[1 : ], "l:o:", [ "target-language", "output" ])
+options = dict(options)
 
-generator_stream = file("toe-lexer-symbols.source", "r")
+if len(args) < 1:
+	usage()
+else:
+	input_file_name = args[0]
+	if input_file_name == "-":
+		input_file = sys.stdin
+	else:
+		input_file = file(input_file_name, "r")
 
-generator = TLexerGenerator(TToeToken)
-states = generator.load(generator_stream, False)
+target_language = (options.get("t") or "pickle")
+if target_language not in [ "pickle", "c" ]:
+	print >>sys.stderr, "error: target language \"%s\" unknown" % target_language
+	usage()
 
-f = file("toe-lexer-symbols.compiled", "w")
-pickle.dump(states, f)
-f.close()
+output_file_name = options.get("o")
+if output_file_name is not None:
+	output_file = tempfile.NamedTemporaryFile(mode = "w") # later file(output_file_name, "w")
+else:
+	output_file = sys.stdout
 
+table_1 = toe.symbol.table()
+generator = TLexerGenerator(table_1)
+states = generator.load(input_file, False)
+
+# TODO c
+
+pickle.dump(states, output_file)
+
+if output_file_name is not None:   
+	os.rename(output_file.name, output_file_name)
+
+input_file.close()

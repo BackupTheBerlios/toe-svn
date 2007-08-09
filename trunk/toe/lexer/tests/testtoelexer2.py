@@ -2,7 +2,7 @@
 
 from toelexer import TLexer, ELexerEofError
 from toelexergenerator import TLexerGenerator, ELexerLoadError
-from toetokens import TToeToken
+import toe.symbol
 import cStringIO
 
 def test_lexer():
@@ -22,7 +22,8 @@ ELexerEofError: Unexpected end of file
 """)
   generator_stream.seek(0)
 
-  generator = TLexerGenerator(TToeToken)
+  table_1 = toe.symbol.table()
+  generator = TLexerGenerator(table_1)
 
   lexer = TLexer()
   lexer.states = generator.load(generator_stream, False)
@@ -35,7 +36,7 @@ ELexerEofError: Unexpected end of file
   lexer.source_stream = test_stream
 
   while not lexer.eof:
-    yield (lexer.token, TToeToken.to_name(lexer.token))
+    yield (lexer.token, repr(lexer.token))
     lexer.consume()
 
 __test__ = {

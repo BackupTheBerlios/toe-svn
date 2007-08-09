@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import toe.symbol
+
 TLexerState = int
 
 TLexerStateTransitionItem = TLexerState # or record with extra information
@@ -8,7 +10,7 @@ class TLexerStateTransition(object):
   def __init__(self):
     # 0 => state invalid
     self._transitions = 256 * [0] # char -> TLexerStateTransitionItem
-    self._fallback_token = 1 # invalid
+    self._fallback_token = toe.symbol.intern("invalid") # token
     self._is_wildcard_tainted = False
     self.is_modified = True # dummy, unused
   

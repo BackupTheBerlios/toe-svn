@@ -5,14 +5,14 @@ this customizes the lexer a little bit so that it supports string escaping in st
 """
 
 from toelexer import TLexer
-from toetokens import TToeToken
+import toe.symbol
 
 class TNosyLexer(TLexer):
   def want_to_continue_token(self):
     token = self.token
     matched_text = self.matched_text
 
-    if token == TToeToken.QUOTED_STRING:
+    if token == toe.symbol.intern("string-literal")
       # allows escaping the quotes
       # i.e. "he said \"foo\""
       
@@ -31,7 +31,7 @@ def _test_nosy_lexer():
   """
   >>> generator = _test_nosy_lexer()
   >>> generator.next()
-  (77, 'QUOTED_STRING', '"he said "hello""')
+  (77, #"string-literal", '"he said "hello""')
   >>> generator.next()
   Traceback (most recent call last):
     File "<stdin>", line 1, in ?
@@ -49,7 +49,8 @@ def _test_nosy_lexer():
 
   from compiler import TLexerGenerator
   
-  generator = TLexerGenerator(TToeToken)
+  table_1 = toe.symbol.table()
+  generator = TLexerGenerator(table_1)
 
   lexer = TNosyLexer()
   lexer.states = generator.load(generator_stream, False)
@@ -61,7 +62,7 @@ def _test_nosy_lexer():
   lexer.source_stream = test_stream
 
   while not lexer.eof:
-    yield (lexer.token, TToeToken.to_name(lexer.token), lexer.matched_text)
+    yield (lexer.token, repr(lexer.token), lexer.matched_text)
     lexer.consume()
   
 def _test():

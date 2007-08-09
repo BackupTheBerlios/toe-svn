@@ -2,11 +2,13 @@
 
 import exceptions
 from data import TLexerStates
+import toe.symbol
 import time
 
 TToken = int
-IGNORE = 0
-INVALID = 1
+
+IGNORE = toe.symbol.intern("ignore") # ignore token
+INVALID = toe.symbol.intern("invalid") # invalid token
 
 def paranoid_char(i):
   if i == chr(32):
@@ -199,4 +201,3 @@ class TLexer(object):
   state = property(lambda self: self._state, set_state)  
   last_state_change = property(lambda self: self._last_state_change)
 
-  
