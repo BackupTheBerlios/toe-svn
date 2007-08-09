@@ -24,7 +24,7 @@ class TLexerStateTransition(object):
     result = []
     
     if self._fallback_token != 0: # none
-      result.append("  DONE -> %d" % self._fallback_token)
+      result.append("  DONE -> %s" % str(self._fallback_token))
     
     for index, transition in enumerate(self._transitions):
       if index >= 32 and index < 128:

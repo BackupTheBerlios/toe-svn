@@ -50,7 +50,7 @@ StopIteration
   lexer.source_stream = test_stream
 
   while not lexer.eof:
-    yield (lexer.token, repr(lexer.token))
+    yield lexer.token
     lexer.consume()
 
 """

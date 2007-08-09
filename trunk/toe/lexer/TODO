@@ -1,3 +1,5 @@
 merge different lexers
 initial state
 Nondeterministic Finite-State Automata
+transition tables: detect ranges of characters in the transition table and just use a range comparision instead of storing each and every occurence.
+fix bug: when unpickling after interning some symbols, these symbols are not used but unpickling rather creates new ones.
