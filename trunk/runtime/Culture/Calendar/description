@@ -1,0 +1,29 @@
+The days omitted are in century years which are not divisible by 400 (specifically: 29 February 1700, 1800, 1900; 2100, 2200, 2300; 2500, 2600, 2700; 2900, etc.).
+The Gregorian solar calendar is an arithmetical calendar. It counts days as the basic unit of time, grouping them into years of 365 or 366 days. The solar calendar repeats completely every 146,097 days, which fill 400 years, and which also happens to be 20,871 seven-day weeks. Of these 400 years, 303 (the "common years") have 365 days, and 97 - the leap years - have 366 days. This gives an average year length of exactly 365.2425 days - or 365 days, 5 hours, 49 minutes and 12 seconds.
+
+A Gregorian year is divided into twelve months of irregular length (but note that there is a period of 153 days divided over 5 months in an alternating pattern from March to July that repeats from August to December):
+
+No. 	Name 	Days
+1 	January 	31
+2 	February 	28 or 29
+3 	March 	31
+4 	April 	30
+5 	May 	31
+6 	June 	30
+7 	July 	31
+8 	August 	31
+9 	September 	30
+10 	October 	31
+11 	November 	30
+12 	December 	31
+
+A calendar date is fully specified by the year (numbered by some scheme beyond the scope of the calendar itself), the month (identified by name or number), and the day of the month (numbered sequentially starting at 1).
+Leap years are all years divisible by 4, with the exception of those divisible by 100, but not by 400. These 366-day years add a 29th day to February, which normally has 28 days.
+First, it was necessary to approximate the correct length of a solar year. The value chosen was 365.2425 days in decimal notation.
+
+computing the date of Easter  http://en.wikipedia.org/wiki/Computus
+
+The last day of the Julian calendar was Thursday October 4, 1582 and this was followed by the first day of the Gregorian calendar, Friday October 15, 1582 (the cycle of weekdays was not affected).
+
+
+// Source: <http://en.wikipedia.org/wiki/Gregorian_calendar>
