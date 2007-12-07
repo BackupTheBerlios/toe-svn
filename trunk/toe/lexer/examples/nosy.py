@@ -4,15 +4,16 @@
 this customizes the lexer a little bit so that it supports string escaping in string literals
 """
 
-from toelexer import TLexer
+from toe.lexer import TLexer
 import toe.symbol
+import sys
 
 class TNosyLexer(TLexer):
-  def want_to_continue_token(self):
+  def want_to_continue_token_p(self):
     token = self.token
     matched_text = self.matched_text
 
-    if token == toe.symbol.intern("string-literal")
+    if token == toe.symbol.intern("string_literal"):
       # allows escaping the quotes
       # i.e. "he said \"foo\""
       
@@ -31,7 +32,7 @@ def _test_nosy_lexer():
   """
   >>> generator = _test_nosy_lexer()
   >>> generator.next()
-  (77, #"string-literal", '"he said "hello""')
+  (toe.symbol.intern("string_literal"), 'toe.symbol.intern("string_literal")', '"he said "hello""')
   >>> generator.next()
   Traceback (most recent call last):
     File "<stdin>", line 1, in ?
@@ -42,12 +43,12 @@ def _test_nosy_lexer():
   
   generator_stream = cStringIO.StringIO()
   generator_stream.write("""
-'"'[^"]*'"'	QUOTED_STRING
+'"'[^"]*'"'	STRING_LITERAL
 
 """)
   generator_stream.seek(0)
 
-  from compiler import TLexerGenerator
+  from toe.lexer.compiler import TLexerGenerator
   
   table_1 = toe.symbol.table()
   generator = TLexerGenerator(table_1)
@@ -61,7 +62,7 @@ def _test_nosy_lexer():
   test_stream.seek(0)
   lexer.source_stream = test_stream
 
-  while not lexer.eof:
+  while not lexer.eof_p:
     yield (lexer.token, repr(lexer.token), lexer.matched_text)
     lexer.consume()
   

@@ -40,7 +40,7 @@ namespace
   test_stream.seek(0)
   lexer.source_stream = test_stream
 
-  while not lexer.eof:
+  while not lexer.eof_p:
     yield lexer.token
     lexer.consume()
 

@@ -79,7 +79,7 @@ class TLexer(object):
     return self._token
 
   # overload that
-  def want_to_continue_token(self):
+  def want_to_continue_token_p(self):
     #self.token
     #self.matched_text
     # note that "state" is still "old"
@@ -145,7 +145,7 @@ class TLexer(object):
       if transitions.fallback_token <> INVALID:
         self._token = transitions.fallback_token
 
-        if self.want_to_continue_token() == True:
+        if self.want_to_continue_token_p() == True:
           # wants to continue in token, so
           #   frobnicate the state and hope no one notices.
         
@@ -194,7 +194,7 @@ class TLexer(object):
   source_line_number = property(lambda self: self._source_line_number, set_source_line_number)
   source_column_number = property(lambda self: self._source_column_number, set_source_column_number)
   source_stream = property(lambda self: self.source_stream, set_source_stream)
-  eof = property(lambda self: self._eof)
+  eof_p = property(lambda self: self._eof)
   input_char = property(lambda self: self._input_char)
   matched_text = property(lambda self: self._matched_text, set_matched_text)
   states = property(lambda self: self._states, set_states) # *possible* states (TLexerStates)
